@@ -1,0 +1,33 @@
+.nav-feature{
+    width: 100%;
+    cursor: pointer;
+    margin: 0rem;
+    color: black;
+    text-decoration: none;
+    padding: 1rem;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    transition: all 0.01s;
+}
+.nav-features {
+    margin-top: 0.5rem;
+    max-width: 25rem;
+    position: absolute;
+    top: 4.1rem;
+    right: 0;
+    flex-direction: column;
+    background-color: #f6f6f6;
+    width: 50%;
+    transition: all 1s;
+    z-index: 1;
+}
+.nav-feature:hover{
+    background-color: rgba(220, 20, 60, 0.175);
+}
+.nav-feature:active{
+    background-color: crimson;
+}
+
+.nav-features-active {
+    transform: translateX(100%) scaleX(0);
+}

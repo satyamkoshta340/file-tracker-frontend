@@ -1,0 +1,26 @@
+.navbar{
+    width: 100%;
+    height: 4.5rem;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.nav-content{
+    justify-content: space-between;
+}
+
+.logo{
+    font-size: 2rem;
+    font-weight: 800;
+    color: crimson;
+    cursor: pointer;
+}
+.user-pic{
+    margin-left: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid grey;
+}
+.user-pic:active{
+    border: 2px solid crimson;
+}
