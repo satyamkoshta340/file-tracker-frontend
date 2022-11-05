@@ -15,7 +15,7 @@ export default function Home() {
   const { user } = useSelector ( state => ({
     user: state.userStore.user
   }))
-  const [scanning, setScanning] = useState(true);
+  const [scanning, setScanning] = useState(false);
   let tick;
   const qrcode = window.qrcode;
   qrcode.callback = res => {
@@ -28,10 +28,11 @@ export default function Home() {
   };
 
   const startScanning = () => {
-    if( !user.gID ){
-      alert("login first")
-    }
-    else setScanning(true)
+    // if( !user.gID ){
+    //   alert("login first")
+    // }
+    // else setScanning(true)
+    setScanning(true)
   }
   return (
     <div className='flex-box home-container' >
