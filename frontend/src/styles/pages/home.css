@@ -1,0 +1,19 @@
+.home-container{
+    min-height: 100vh;
+}
+.home-background{
+    width:50vw;
+    position: absolute;
+    top: 4rem;
+    z-index: -2;
+}
+
+.scan-btn{
+    margin-top: 15rem;
+}
+
+@media screen and (max-width: 768px) {
+    .home-background{
+        width: 100vw
+    }
+}

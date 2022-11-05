@@ -1,0 +1,122 @@
+.footer{
+    /* position: static;
+    bottom: 0; */
+    align-self: end;
+    height: 20rem;
+    background-color: rgba(220, 20, 60, 0.163);
+    width: 100%;
+    padding-left: 10rem;
+    padding-right: 10rem;
+    box-sizing: border-box;
+}
+
+.flex-col-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.f-start{
+    height: 20rem;
+    /* padding-left: 10rem; */
+    padding-top: 3rem;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0rem;
+}
+.f-end{
+    width: 100%;
+    height: 2rem;
+    background-color: #ffffff;
+    /* padding-left: 10rem; */
+    display: flex;
+    align-items: center;
+}
+
+.footer-deatil-text{
+    margin: 0%;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+    color: black;
+}
+.f-info{
+    font-size: 0.9em;
+}
+
+.f-box .footer-deatil-text{
+    cursor: pointer;
+}
+.f-box .footer-deatil-text:hover{
+    color: crimson
+}
+
+p  :hover{
+    color: crimson
+}
+
+/* .two{
+    padding-left: 5rem;
+} */
+
+.footer-deatil-text{
+display: inline-flex;
+align-items: center;
+}
+
+@media screen and (max-width: 992px) {
+    .f-start{
+        padding-left: 4rem;
+        padding-top: 2rem;
+        padding-right: 2rem;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0;
+    }
+    .two{
+        padding-left: 2rem;
+    }
+    .f-end{
+        padding-left: 4rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .footer{
+        height: auto;
+        padding-left: 0rem;
+        padding-right: 0rem;
+    }
+    .f-box{
+        padding-top: 1rem;
+    }
+    .f-start{
+        /* flex-direction: column; */
+        height: auto;
+        padding-left: 2rem;
+        padding-bottom: 2rem;
+        padding-top: 0rem;
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .f-end{
+        padding-left: 2rem;
+    }
+
+    .one{
+        grid-row: 4;
+    }
+
+    .two{
+        padding-left: 0;
+    }
+
+    .three{
+        grid-row: 1;
+    }
+
+    .four{
+        grid-row: 2;
+    }
+
+}

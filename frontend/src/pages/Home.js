@@ -1,6 +1,9 @@
+import zIndex from '@mui/material/styles/zIndex';
+import { positions } from '@mui/system';
 import {useState} from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import Webcam from 'react-webcam';
+import background from '../media/background1.png';
 
 const videoConstraints = {
   width: 480,
@@ -12,7 +15,7 @@ export default function Home() {
   const { user } = useSelector ( state => ({
     user: state.userStore.user
   }))
-  const [scanning, setScanning] = useState(false);
+  const [scanning, setScanning] = useState(true);
   let tick;
   const qrcode = window.qrcode;
   qrcode.callback = res => {
@@ -31,7 +34,8 @@ export default function Home() {
     else setScanning(true)
   }
   return (
-    <div className='flex-box'>
+    <div className='flex-box home-container' >
+      <img src={background} className='home-background' />
       {
         scanning && 
         <div>
@@ -51,7 +55,7 @@ export default function Home() {
       {
         !scanning &&
         <div className='flex-col-box'>
-          <button onClick={ (e) => startScanning() } className="btn">
+          <button onClick={ (e) => startScanning() } className="btn scan-btn">
             Scan
           </button>
         </div>
