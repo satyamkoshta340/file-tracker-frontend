@@ -1,6 +1,6 @@
-import {useState, useRef, useEffect} from 'react';
+import {useState, useRef} from 'react';
 import { useSelector } from "react-redux";
-import Webcam from '../components/Webcam';
+import { Camera } from 'react-camera-pro';
 import background from '../media/background1.png';
 
 export default function Home() {
@@ -10,36 +10,35 @@ export default function Home() {
   const [scanning, setScanning] = useState(false);
   const camera = useRef(null);
 
-  let tick;
-  const qrcode = window.qrcode;
-  qrcode.callback = res => {
+    let tick;
+    const qrcode = window.qrcode;
+    qrcode.callback = res => {
+        if (typeof(res) === "string") {
+        console.log(res);
+        clearInterval(tick);
+        setScanning(false);
+        }
+    };
 
-    if (typeof(res) === "string") {
-      console.log(res);
-      clearInterval(tick);
-      setScanning(false);
-    }
-  };
+    const startScanning = () => {
+        // if( !user.gID ){
+        //   alert("login first")
+        // }
+        // else setScanning(true)
+        setScanning(true)
+        tick = setInterval(()=>{
+            const imageSrc = camera.current.takePhoto()
+            qrcode.decode(imageSrc);
+        }, 1000);
+      }
 
-  const startScanning = () => {
-    // if( !user.gID ){
-    //   alert("login first")
-    // }
-    // else setScanning(true)
-    setScanning(true)
-    tick = setInterval(()=>{
-      const imageSrc = camera.current.takePhoto()
-      qrcode.decode(imageSrc);
-    }, 1000);
-  }
   return (
     <div className='flex-box home-container' >
       <img src={background} className='home-background' alt='background' />
       {
         scanning && 
         <div>
-
-          <Webcam/>
+          <Camera ref={camera}/>
         </div>
       }
       {

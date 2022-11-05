@@ -5,7 +5,8 @@ import Home from './pages/Home';
 import Files from './pages/Files';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import { useState, useEffect } from "react";
+import NotFoundPage from './pages/NotFoundPage';
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -34,9 +35,10 @@ function App() {
     <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={ <Home/> }/>
+          <Route path="/" element={ <Home/> } id="home"/>
           <Route path="/files" element={ <Files/> }/>
           <Route path="/about" element={ <About/> }/>
+          <Route path='*' element={<NotFoundPage/>} />
         </Routes>
         <Footer />
       </BrowserRouter>
