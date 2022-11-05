@@ -1,21 +1,15 @@
-import zIndex from '@mui/material/styles/zIndex';
-import { positions } from '@mui/system';
-import {useState} from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import Webcam from 'react-webcam';
+import {useState, useRef, useEffect} from 'react';
+import { useSelector } from "react-redux";
+import Webcam from '../components/Webcam';
 import background from '../media/background1.png';
-
-const videoConstraints = {
-  width: 480,
-  height: 420,
-  facingMode: "user"
-};
 
 export default function Home() {
   const { user } = useSelector ( state => ({
     user: state.userStore.user
   }))
   const [scanning, setScanning] = useState(false);
+  const camera = useRef(null);
+
   let tick;
   const qrcode = window.qrcode;
   qrcode.callback = res => {
@@ -33,25 +27,20 @@ export default function Home() {
     // }
     // else setScanning(true)
     setScanning(true)
+    tick = setInterval(()=>{
+      const imageSrc = camera.current.takePhoto()
+      qrcode.decode(imageSrc);
+    }, 1000);
   }
   return (
     <div className='flex-box home-container' >
-      <img src={background} className='home-background' />
+      <img src={background} className='home-background' alt='background' />
       {
         scanning && 
         <div>
-          <Webcam audio={false}
-            height={420}
-            screenshotFormat="image/jpeg"
-            width={480}
-            videoConstraints={videoConstraints}>{({ getScreenshot }) => {
-              tick = setInterval(()=>{
-                const imageSrc = getScreenshot()
-                qrcode.decode(imageSrc);
-              }, 1000);
-            }}
-          </Webcam>
-    </div>
+
+          <Webcam/>
+        </div>
       }
       {
         !scanning &&

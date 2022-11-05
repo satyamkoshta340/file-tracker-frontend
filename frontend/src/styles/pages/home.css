@@ -12,8 +12,14 @@
     margin-top: 15rem;
 }
 
+#video{
+    width: 20rem;
+    height: 20rem;
+    
+}
 @media screen and (max-width: 768px) {
     .home-background{
-        width: 100vw
+        width: 100vw;
+        padding-top: 8rem;
     }
 }

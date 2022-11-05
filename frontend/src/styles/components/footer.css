@@ -33,6 +33,7 @@
     /* padding-left: 10rem; */
     display: flex;
     align-items: center;
+    box-sizing: border-box;
 }
 
 .footer-deatil-text{
@@ -86,6 +87,7 @@ align-items: center;
         height: auto;
         padding-left: 0rem;
         padding-right: 0rem;
+        padding-top: 2rem;
     }
     .f-box{
         padding-top: 1rem;
