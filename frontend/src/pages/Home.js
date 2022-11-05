@@ -12,11 +12,13 @@ export default function Home() {
 
     let tick;
     const qrcode = window.qrcode;
+    const [result, setResult] = useState("")
     qrcode.callback = res => {
         if (typeof(res) === "string") {
-        console.log(res);
-        clearInterval(tick);
-        setScanning(false);
+          console.log(res);
+          setResult(res);
+          clearInterval(tick);
+          setScanning(false);
         }
     };
 
@@ -39,6 +41,7 @@ export default function Home() {
         scanning && 
         <div>
           <Camera ref={camera}/>
+          <button className='btn' onClick={()=>camera.current.switchCamera()}>🔁</button>
         </div>
       }
       {
@@ -47,6 +50,7 @@ export default function Home() {
           <button onClick={ (e) => startScanning() } className="btn scan-btn">
             Scan
           </button>
+          <div>{result}</div>
         </div>
       }
     </div>
