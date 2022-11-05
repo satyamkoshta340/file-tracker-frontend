@@ -15,7 +15,9 @@
 #video{
     width: 20rem;
     height: 20rem;
-    
+    position: absolute;
+    top: -4rem;
+    left: -7rem;
 }
 @media screen and (max-width: 768px) {
     .home-background{

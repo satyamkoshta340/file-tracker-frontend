@@ -14,37 +14,45 @@ export default function Home() {
     let tick;
     const qrcode = window.qrcode;
     const [result, setResult] = useState("")
+
+    const startScanning = () => {
+      // if( !user.gID ){
+      //   alert("login first")
+      // }
+      // else setScanning(true)
+      setScanning(true)
+      tick = setInterval(()=>{
+          const imageSrc = camera.current.takePhoto()
+          qrcode.decode(imageSrc);
+      }, 1000);
+    }
+
+    const endScanning = ()=>{
+      clearInterval(tick);
+      setScanning(false);
+    }
+
     qrcode.callback = res => {
         if (typeof(res) === "string") {
           console.log(res);
           setResult(res);
-          clearInterval(tick);
-          setScanning(false);
+          endScanning();
         }
     };
 
-    const startScanning = () => {
-        // if( !user.gID ){
-        //   alert("login first")
-        // }
-        // else setScanning(true)
-        setScanning(true)
-        tick = setInterval(()=>{
-            const imageSrc = camera.current.takePhoto()
-            qrcode.decode(imageSrc);
-        }, 1000);
-      }
 
   return (
     <div className='flex-box home-container' >
       <img src={background} className='home-background' alt='background' />
       {
         scanning && 
-        <div>
+        <div >
           <Camera ref={camera}
-          numberOfCamerasCallback={setNumberOfCameras}
+          facingMode='environment'
+          aspectRatio= {4 / 3}
+          numberOfCamerasCallback={i => setNumberOfCameras(i)}
           />
-          <button className='btn' onClick={(e)=>camera.current.switchCamera()}>🔁</button>
+          <button className='btn scan-btn' onClick={(e)=>endScanning()}>❌</button>
         </div>
       }
       {
