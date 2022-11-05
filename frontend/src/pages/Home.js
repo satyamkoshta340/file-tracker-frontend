@@ -8,6 +8,7 @@ export default function Home() {
     user: state.userStore.user
   }))
   const [scanning, setScanning] = useState(false);
+  const [numberOfCameras, setNumberOfCameras] = useState(0);
   const camera = useRef(null);
 
     let tick;
@@ -40,8 +41,10 @@ export default function Home() {
       {
         scanning && 
         <div>
-          <Camera ref={camera}/>
-          <button className='btn' onClick={()=>camera.current.switchCamera()}>🔁</button>
+          <Camera ref={camera}
+          numberOfCamerasCallback={setNumberOfCameras}
+          />
+          <button className='btn' onClick={(e)=>camera.current.switchCamera()}>🔁</button>
         </div>
       }
       {
@@ -50,7 +53,7 @@ export default function Home() {
           <button onClick={ (e) => startScanning() } className="btn scan-btn">
             Scan
           </button>
-          <div>{result}</div>
+          <div>{numberOfCameras +"   "+ result}</div>
         </div>
       }
     </div>
