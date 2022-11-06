@@ -16,7 +16,7 @@ function Navbar() {
   return (
     <div className='navbar align-middle'>
         <div className='container nav-content'>
-          <Link to={"/file-tracker"} className="logo">
+          <Link to={"/file-tracker-frontend"} className="logo">
             Let's Track
           </Link>
             {

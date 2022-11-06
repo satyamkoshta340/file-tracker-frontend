@@ -9,7 +9,7 @@ export default function Footer() {
         
         <div className="f-start">
         <div className="flex-col-box f-box f-info-box one">
-          <Link to={"/file-tracker"} className="logo footer-logo">
+          <Link to={"/file-tracker-frontend"} className="logo footer-logo">
             Let's Track
           </Link>
           <span className="f-info">
@@ -33,16 +33,13 @@ export default function Footer() {
         </div>
         <div className="flex-col-box f-box three">
           <h3 className="footer-deatil-text-heading">Quick Links</h3>
-          <Link to={"/"} className="footer-deatil-text">
+          <Link to={"/file-tracker-frontend"} className="footer-deatil-text">
             Home
           </Link>
-          <Link to={"/about"} className="footer-deatil-text">
+          <Link to={"/file-tracker-frontend/about"} className="footer-deatil-text">
             About Us
           </Link>
-          <Link to={"/varifyLot"} className="footer-deatil-text">
-            Verify Lots
-          </Link>
-          <Link to={"/privacyPolicy"} className="footer-deatil-text">
+          <Link to={"/file-tracker-frontend/privacyPolicy"} className="footer-deatil-text">
             Privacy Policy
           </Link>
         </div>

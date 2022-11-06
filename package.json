@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "homepage": "https://satyamkoshta340.github.io/file-tracker",
+  "homepage": "https://satyamkoshta340.github.io/file-tracker-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
