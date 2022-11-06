@@ -20,6 +20,9 @@
     width: 1250px;
     display: flex;
 }
+.page-box{
+    min-height: 92vh;
+}
 .flex-box{
     display: flex;
     align-items: center;

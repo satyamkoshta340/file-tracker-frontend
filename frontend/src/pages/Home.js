@@ -2,11 +2,14 @@ import {useState, useRef} from 'react';
 import { useSelector } from "react-redux";
 import { Camera } from 'react-camera-pro';
 import background from '../media/background1.png';
+import AlertDialog from '../components/AlertDialog';
 
 export default function Home() {
   const { user } = useSelector ( state => ({
     user: state.userStore.user
   }))
+
+  const [open, setOpen] = useState(false);
   const [scanning, setScanning] = useState(false);
   const [numberOfCameras, setNumberOfCameras] = useState(0);
   const camera = useRef(null);
@@ -16,15 +19,16 @@ export default function Home() {
     const [result, setResult] = useState("")
 
     const startScanning = () => {
-      // if( !user.gID ){
-      //   alert("login first")
-      // }
-      // else setScanning(true)
-      setScanning(true)
-      tick = setInterval(()=>{
-          const imageSrc = camera.current.takePhoto()
-          qrcode.decode(imageSrc);
-      }, 1000);
+      if( !user.gID ){
+        setOpen(true);
+      }
+      else {
+        setScanning(true)
+        tick = setInterval(()=>{
+            const imageSrc = camera.current.takePhoto()
+            qrcode.decode(imageSrc);
+        }, 1000);
+      }
     }
 
     const endScanning = ()=>{
@@ -58,10 +62,16 @@ export default function Home() {
       {
         !scanning &&
         <div className='flex-col-box'>
+          <AlertDialog 
+            name={"Start Scan"} 
+            content={"Please Login First!"} 
+            title={"Login"}
+            open={open}
+            setOpen = { setOpen }
+          />
           <button onClick={ (e) => startScanning() } className="btn scan-btn">
             Scan
           </button>
-          <div>{numberOfCameras +"   "+ result}</div>
         </div>
       }
     </div>

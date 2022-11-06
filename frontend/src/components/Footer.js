@@ -9,7 +9,7 @@ export default function Footer() {
         
         <div className="f-start">
         <div className="flex-col-box f-box f-info-box one">
-          <Link to={"/"} className="logo footer-logo">
+          <Link to={"/file-tracker"} className="logo footer-logo">
             Let's Track
           </Link>
           <span className="f-info">

@@ -1,0 +1,30 @@
+.files-box{
+    align-self: flex-start;
+    justify-self: right;
+    display: flex;
+    gap: 4rem;
+    box-sizing: border-box;
+    padding: 2rem;
+}
+
+.file-container{
+    width: 12rem;
+    height: 15rem;
+    display: flex;
+    box-sizing: border-box;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    cursor: pointer;
+}
+
+.file-container:hover{
+    border: 1px solid crimson;
+}
+
+@media screen and (max-width: 768px) {
+    .files-box{
+        flex-direction: column;
+        gap: 2rem;
+    }
+}

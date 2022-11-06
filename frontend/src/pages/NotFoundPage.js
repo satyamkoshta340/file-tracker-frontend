@@ -2,7 +2,7 @@
 export default function NotFoundPage() {
     return (
       <div>
-          <div>
+          <div className="page-box">
               <h1>
                   Error code: 404
                   

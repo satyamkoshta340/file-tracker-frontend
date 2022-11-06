@@ -35,9 +35,9 @@ function App() {
     <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={ <Home/> } id="home"/>
-          <Route path="/files" element={ <Files/> }/>
-          <Route path="/about" element={ <About/> }/>
+          <Route path="/file-tracker" element={ <Home/> } id="home"/>
+          <Route path="/file-tracker/files" element={ <Files/> }/>
+          <Route path="/file-tracker/about" element={ <About/> }/>
           <Route path='*' element={<NotFoundPage/>} />
         </Routes>
         <Footer />

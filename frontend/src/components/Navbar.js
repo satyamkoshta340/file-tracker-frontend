@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import Sidenav from "./Sidenav";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const [sideNav, setSideNav] = useState(true);
@@ -15,7 +16,9 @@ function Navbar() {
   return (
     <div className='navbar align-middle'>
         <div className='container nav-content'>
-            <div className='logo'>Lets Track</div>
+          <Link to={"/file-tracker"} className="logo">
+            Let's Track
+          </Link>
             {
               !user.gID &&
               <div>
