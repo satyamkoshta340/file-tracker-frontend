@@ -22,7 +22,7 @@ function Navbar() {
             {
               !user.gID &&
               <div>
-                <button className='btn' onClick={login}>Login</button>
+                <button className='btn' onClick={(e)=>login()}>Login</button>
               </div>
             }
             {
