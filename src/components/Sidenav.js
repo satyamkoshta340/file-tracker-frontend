@@ -6,10 +6,17 @@ export default function Sidenav(flag) {
     useEffect(()=>{
         setSideNav(flag.flag);
     })
+    const logout = async ()=>{
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/logout`);
+        console.log(response)
+    }
     return (
         <div className={`nav-features flex-box ${sideNav ? "nav-features-active" : ""}`}>
             <Link to={"/file-tracker-frontend"} className="nav-feature">
                 Home
+            </Link>
+            <Link to={"/file-tracker-frontend/profile"} className="nav-feature">
+                Profile
             </Link>
             <Link to={"/file-tracker-frontend/files"} className="nav-feature">
                 My Files
@@ -17,9 +24,9 @@ export default function Sidenav(flag) {
             <Link to={"/file-tracker-frontend/about"} className="nav-feature">
                 About Us
             </Link>
-            <Link to={"/file-tracker-frontend/about"} className="nav-feature">
+            <div  className="nav-feature" onClick={(e)=>logout()} >
                 Logout
-            </Link>
+            </div>
 
         </div>
     )

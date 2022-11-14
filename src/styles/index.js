@@ -4,6 +4,7 @@ import sidenavStyle from "./components/sidenav.css";
 import footerStyle from "./components/footer.css";
 import homeStyle from "./pages/home.css";
 import filesStyle from "./pages/files.css";
+import profileStyle from "./pages/profile.css";
 
 export{
     mainStyle,
@@ -11,5 +12,6 @@ export{
     sidenavStyle,
     footerStyle,
     homeStyle,
-    filesStyle
+    filesStyle,
+    profileStyle
 }

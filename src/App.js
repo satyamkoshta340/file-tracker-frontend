@@ -6,6 +6,7 @@ import Files from './pages/Files';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import NotFoundPage from './pages/NotFoundPage';
+import Profile from './pages/Profile';
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -38,6 +39,7 @@ function App() {
           <Route path="/file-tracker-frontend" element={ <Home/> } id="home"/>
           <Route path="/file-tracker-frontend/files" element={ <Files/> }/>
           <Route path="/file-tracker-frontend/about" element={ <About/> }/>
+          <Route path="/file-tracker-frontend/profile" element={ <Profile /> } />
           <Route path='*' element={<NotFoundPage/>} />
         </Routes>
         <Footer />
