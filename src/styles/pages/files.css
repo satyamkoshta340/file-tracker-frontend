@@ -8,7 +8,7 @@
 }
 
 .file-container{
-    width: 12rem;
+    width: 14rem;
     height: 15rem;
     display: flex;
     box-sizing: border-box;
@@ -16,10 +16,29 @@
     border-radius: 5px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     cursor: pointer;
+    justify-content: start;
+    align-items: start;
+    gap: 1rem;
 }
 
 .file-container:hover{
     border: 1px solid crimson;
+}
+
+.file-form{
+    width: 30rem;
+    max-width: 100%;
+}
+.file-form-row-block{
+    padding-bottom: 1rem;
+    box-sizing: border-box;
+}
+.file-input{
+    width: 100%;
+    height: 2rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+    outline: none;
 }
 
 @media screen and (max-width: 768px) {

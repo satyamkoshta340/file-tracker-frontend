@@ -8,7 +8,7 @@ export default function Footer() {
     <div className='footer '>
         
         <div className="f-start">
-        <div className="flex-col-box f-box f-info-box one">
+        <div className="footer-col-box f-box f-info-box one">
           <Link to={"/file-tracker-frontend"} className="logo footer-logo">
             Let's Track
           </Link>
@@ -25,13 +25,13 @@ export default function Footer() {
             </div>
           </span>
         </div>
-        <div className="flex-col-box f-box two">
+        <div className="footer-col-box f-box two">
           <h3 className="footer-deatil-text-heading">Social</h3>
           <a href="https://www.linkedin.com/in/satyamkoshta340/">
             <LinkedInIcon className="footer-deatil-text" />
           </a>
         </div>
-        <div className="flex-col-box f-box three">
+        <div className="footer-col-box f-box three">
           <h3 className="footer-deatil-text-heading">Quick Links</h3>
           <Link to={"/file-tracker-frontend"} className="footer-deatil-text">
             Home
@@ -43,7 +43,7 @@ export default function Footer() {
             Privacy Policy
           </Link>
         </div>
-        <div id="footer-contact" className="flex-col-box f-box four">
+        <div id="footer-contact" className="footer-col-box f-box four">
           <h3 className="footer-deatil-text-heading">Contact</h3>
           <a href="tel:+91 9876543210" className="footer-deatil-text">
             <PhoneIcon></PhoneIcon>

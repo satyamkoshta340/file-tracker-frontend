@@ -68,6 +68,7 @@ export default function Home() {
             title={"Login"}
             open={open}
             setOpen = { setOpen }
+            actionName = {"Okay"}
           />
           <button onClick={ (e) => startScanning() } className="btn scan-btn">
             Scan

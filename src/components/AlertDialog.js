@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function AlertDialog({name, content, title, open, setOpen }) {
+export default function AlertDialog({content, title, open, setOpen, actionName }) {
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -33,7 +33,7 @@ export default function AlertDialog({name, content, title, open, setOpen }) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Ok</Button>
+          <Button onClick={handleClose}>{actionName}</Button>
         </DialogActions>
       </Dialog>
     </div>

@@ -10,7 +10,7 @@
     box-sizing: border-box;
 }
 
-.flex-col-box{
+.footer-col-box{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -50,10 +50,6 @@
     cursor: pointer;
 }
 .f-box .footer-deatil-text:hover{
-    color: crimson
-}
-
-p  :hover{
     color: crimson
 }
 
