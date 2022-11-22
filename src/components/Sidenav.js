@@ -1,14 +1,24 @@
 import { useState, useEffect} from "react";
 import { Link } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function Sidenav(flag) {
     const [sideNav, setSideNav] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     useEffect(()=>{
         setSideNav(flag.flag);
     })
     const logout = async ()=>{
-        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/logout`);
-        console.log(response)
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/logout`, { credentials: 'include'});
+        const resp = await response.json();
+        if( resp.status === "success" ){
+            dispatch({ type: "user/SET_USER", payload:  { user:{} } });
+        }
+        setSideNav(false);
+        navigate("/file-tracker-frontend")
     }
     return (
         <div className={`nav-features flex-box ${sideNav ? "nav-features-active" : ""}`}>

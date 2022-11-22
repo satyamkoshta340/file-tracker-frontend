@@ -1,17 +1,54 @@
 import { ReactComponent as FilesSVG} from "../media/files.svg"
-import { useState } from "react"
-import { v4 as uuidv4 } from 'uuid';
+import { useEffect, useState } from "react"
 import AlertDialog from "../components/AlertDialog";
 import Button from '@mui/material/Button';
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function Files() {
   const [files, setFiles] = useState([]);
   const [ creatingFile, setCreatingFile ] = useState(false);
   const [newFile, setNewFile] = useState({});
+
+  const navigate = useNavigate();
+  const { user } = useSelector ( state => ({
+    user: state.userStore.user
+  }))
+  useEffect(()=>{
+    if( !user.gID ){
+      navigate("/file-tracker-frontend");
+    }
+    else{
+      const loadUsersFiles = async () =>{
+        const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/file`, {
+          method: 'GET',
+          mode: 'cors',
+          credentials: 'include',
+          headers: {
+            'content-type': 'application/json'
+          }
+        });
+        const response = await resp.json();
+
+        if( response?.data?.files.length) setFiles(response.data.files);
+      }
+      loadUsersFiles();
+    }
+  }, [])
+
   const createNewFile = async () => {
-    const fileId = uuidv4();
-    setNewFile({...newFile, fileId: fileId});
-    console.log(newFile);
+
+    const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/file`, {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
+      headers:{
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(newFile)
+    })
+    const response = await resp.json();
+
     setFiles([...files, newFile]);
     setNewFile({});
     setCreatingFile(false);
@@ -62,7 +99,7 @@ export default function Files() {
         <div className="files-box">
         {
           files.map(file=>{
-            return <div className="file-container flex-col-box">
+            return <div className="file-container flex-col-box" key={file.fileId}>
               <div>
                 <b>Name</b> <br/>
                 {file.fileName}
@@ -71,7 +108,7 @@ export default function Files() {
               <b>Description</b> <br/>
                 {file.description}
               </div>
-              </div>
+            </div>
           })
         }
       </div>
