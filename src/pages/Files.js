@@ -53,6 +53,9 @@ export default function Files() {
     setNewFile({});
     setCreatingFile(false);
   }
+  const openFile = async (fileId) => {
+    navigate(`/file-tracker-frontend/track/${fileId}`)
+  }
   return (
     <div className="flex-box page-box">
       {
@@ -83,7 +86,7 @@ export default function Files() {
       files.length === 0 &&
       <>
         <FilesSVG  className="home-background" style={{top: 80, position: 'absolute', zIndex: -1}}/>
-        <div className="flex-col-box" style={{paddingTop: '12rem'}}>
+        <div className="flex-col-box" style={{paddingTop: '12rem', paddingBottom: '2rem'}}>
           <h3>You haven't Registered any file yet!</h3>
           <Button onClick={()=>setCreatingFile(true)} variant="contained">Register New</Button>
         </div>
@@ -99,7 +102,7 @@ export default function Files() {
         <div className="files-box">
         {
           files.map(file=>{
-            return <div className="file-container flex-col-box" key={file.fileId}>
+            return <div className="file-container flex-col-box" key={file.fileId} onClick={(e)=>openFile(file.fileId)}>
               <div>
                 <b>Name</b> <br/>
                 {file.fileName}

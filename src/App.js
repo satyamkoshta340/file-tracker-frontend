@@ -3,6 +3,7 @@ import axios from "axios";
 import About from './pages/About';
 import Home from './pages/Home';
 import Files from './pages/Files';
+import FileTrack from './pages/FileTrack';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import NotFoundPage from './pages/NotFoundPage';
@@ -38,6 +39,7 @@ function App() {
         <Routes>
           <Route path="/file-tracker-frontend" element={ <Home/> } id="home"/>
           <Route path="/file-tracker-frontend/files" element={ <Files/> }/>
+          <Route path="/file-tracker-frontend/track/:fileId" element={ <FileTrack/> }/>
           <Route path="/file-tracker-frontend/about" element={ <About/> }/>
           <Route path="/file-tracker-frontend/profile" element={ <Profile /> } />
           <Route path='*' element={<NotFoundPage/>} />

@@ -1,0 +1,38 @@
+.track-view{
+    display: flex;
+    justify-content: center;
+    padding-top: 2rem;
+}
+
+.history-box{
+    display: flex;
+    gap:2rem;
+}
+
+.tracks{
+    display: flex;
+    flex-direction: column;
+    padding-top: 4rem;
+    
+}
+.track-spot{
+    padding-top: 1rem;
+    border-left: 4px solid black;
+    padding-left: 2rem;
+    position: relative;
+}
+
+.circle{
+    position: absolute;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid black;
+    border-radius: 100%;
+    left: -11px;
+}
+.curr-spot{
+    background-color: lightgreen;
+}
+.old-spot{
+    background-color: aliceblue
+}
