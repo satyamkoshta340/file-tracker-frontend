@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -6,6 +6,8 @@ function FileTrack() {
     const { fileId } = useParams();
     const [ history, setHistory ] = useState([]);
     const [ file, setFile ] = useState({});
+    const [ qr, setQr ] = useState("");
+    const qrRef = useRef();
 
     const navigate = useNavigate();
     const { user } = useSelector ( state => ({
@@ -27,10 +29,19 @@ function FileTrack() {
         if(response.data.history){
             setHistory(response.data.history);
             setFile(response.data.file);
+            setQr(response.data.qr);
         }
         else{
             setHistory(null);
         }
+    }
+    const printQR = () => {
+        const printContents = `<img src="data:image/jpeg;base64,${qr}" alt="QR" style="width:100%"/>`
+        const w=window.open();
+        w.document.write(printContents);
+        w.print();
+        w.close();
+        console.log(printContents)
     }
     useEffect( ()=>{
         if( !user.gID ){
@@ -63,6 +74,12 @@ function FileTrack() {
                         </div>
                     </div>
                     <div className="tracks">
+                        <div className="qr-box">
+                            <img src={`data:image/jpeg;base64,${qr}`} alt="QR" ref={qrRef}/>
+                            <div className="btn align-middle qr-print-btn" onClick={(e)=> printQR()}>
+                                Print QR
+                            </div>
+                        </div>
                     {
                         history.map((h, i)=>{
                             return(

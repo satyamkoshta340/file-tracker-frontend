@@ -12,7 +12,7 @@
 .tracks{
     display: flex;
     flex-direction: column;
-    padding-top: 4rem;
+    /* padding-top: 4rem; */
     
 }
 .track-spot{
@@ -35,4 +35,13 @@
 }
 .old-spot{
     background-color: aliceblue
+}
+.qr-box{
+    display: flex;
+    align-items: flex-end;
+    box-sizing: border-box;
+}
+.qr-print-btn{
+    margin-bottom: 1rem;
+    margin-left: 1rem;
 }
