@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/file-tracker-frontend/static/css/main.ab2b2c3d.css",
-    "main.js": "/file-tracker-frontend/static/js/main.94004bba.js",
+    "main.css": "/file-tracker-frontend/static/css/main.ef8016a7.css",
+    "main.js": "/file-tracker-frontend/static/js/main.44d804e1.js",
     "static/js/787.cda612ba.chunk.js": "/file-tracker-frontend/static/js/787.cda612ba.chunk.js",
     "service-worker.js": "/file-tracker-frontend/service-worker.js",
     "static/media/about.png": "/file-tracker-frontend/static/media/about.d71a65c376370a31b999.png",
@@ -9,12 +9,12 @@
     "static/media/background1.png": "/file-tracker-frontend/static/media/background1.094b6803b3bde024715d.png",
     "static/media/files.svg": "/file-tracker-frontend/static/media/files.4995e52583afe7f28df74b6a034d8f1c.svg",
     "index.html": "/file-tracker-frontend/index.html",
-    "main.ab2b2c3d.css.map": "/file-tracker-frontend/static/css/main.ab2b2c3d.css.map",
-    "main.94004bba.js.map": "/file-tracker-frontend/static/js/main.94004bba.js.map",
+    "main.ef8016a7.css.map": "/file-tracker-frontend/static/css/main.ef8016a7.css.map",
+    "main.44d804e1.js.map": "/file-tracker-frontend/static/js/main.44d804e1.js.map",
     "787.cda612ba.chunk.js.map": "/file-tracker-frontend/static/js/787.cda612ba.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ab2b2c3d.css",
-    "static/js/main.94004bba.js"
+    "static/css/main.ef8016a7.css",
+    "static/js/main.44d804e1.js"
   ]
 }
