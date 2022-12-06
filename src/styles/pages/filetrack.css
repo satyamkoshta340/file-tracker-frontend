@@ -1,7 +1,8 @@
 .track-view{
     display: flex;
     justify-content: center;
-    padding-top: 2rem;
+    padding: 2rem;
+    box-sizing: border-box;
 }
 
 .history-box{
@@ -29,6 +30,7 @@
     border: 2px solid black;
     border-radius: 100%;
     left: -11px;
+    z-index: 1;
 }
 .curr-spot{
     background-color: lightgreen;
@@ -44,4 +46,10 @@
 .qr-print-btn{
     margin-bottom: 1rem;
     margin-left: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+    .history-box{
+        flex-direction: column;
+    }
 }

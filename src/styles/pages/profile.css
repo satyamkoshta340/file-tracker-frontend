@@ -1,15 +1,28 @@
+.profile{
+    padding: 2rem;
+    box-sizing: border-box;
+}
 .profile-container{
     width: 1250px;
     height: 620px;
-    border: 5px solid rgb(213, 213, 213);
+    /* border: 5px solid rgb(213, 213, 213); */
     border-radius: 5px;
     box-sizing: border-box;
     padding: 2rem;
-    background-color: rgba(179, 178, 178, 0.133)
+    /* background-color: rgba(179, 178, 178, 0.133) */
 }
 
 .profile-img{
     width: 10rem;
     border-radius: 5px;
     border: 2px solid grey;
+}
+
+@media screen and (max-width: 768px) {
+    .profile-container{
+        width: 100%;
+    }
+    .profile{
+        display: block;
+    }
 }

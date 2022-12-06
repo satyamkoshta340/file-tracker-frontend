@@ -6,6 +6,7 @@ import fileTrackStyle from  "./pages/filetrack.css";
 import homeStyle from "./pages/home.css";
 import filesStyle from "./pages/files.css";
 import profileStyle from "./pages/profile.css";
+import aboutStyle from "./pages/about.css";
 
 export{
     mainStyle,
@@ -15,5 +16,6 @@ export{
     homeStyle,
     filesStyle,
     fileTrackStyle,
-    profileStyle
+    profileStyle,
+    aboutStyle
 }

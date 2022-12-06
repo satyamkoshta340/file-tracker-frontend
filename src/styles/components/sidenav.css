@@ -31,3 +31,13 @@
 .nav-features-active {
     transform: translateX(100%) scaleX(0);
 }
+
+@media  screen and (max-width: 768px) {
+    .nav-features{
+        width: 80%;
+    }
+
+    .my-files{
+        display: block;
+    }
+}

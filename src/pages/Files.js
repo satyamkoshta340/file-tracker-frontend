@@ -4,11 +4,13 @@ import AlertDialog from "../components/AlertDialog";
 import Button from '@mui/material/Button';
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Snackbar from "../components/Snackbar";
 
 export default function Files() {
   const [files, setFiles] = useState([]);
   const [ creatingFile, setCreatingFile ] = useState(false);
   const [newFile, setNewFile] = useState({});
+  const [snack, setSnack] = useState();
 
   const navigate = useNavigate();
   const { user } = useSelector ( state => ({
@@ -38,27 +40,50 @@ export default function Files() {
   }, [])
 
   const createNewFile = async () => {
-
+    if( !newFile.fileName ){
+      setSnack({
+        active: true,
+        message: "File Name Can't be Empty!",
+        severity: "error"
+      });
+      return;
+    }
+    if( !newFile.description ){
+      setSnack({
+        active: true,
+        message: "Please provide a description!",
+        severity: "error"
+      });
+      return;
+    }
     const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/file`, {
       method: 'POST',
       mode: 'cors',
       credentials: 'include',
       headers:{
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("token")}`
       },
       body: JSON.stringify(newFile)
     })
     const response = await resp.json();
-
-    setFiles([...files, newFile]);
-    setNewFile({});
+    if( response.status === "success"){
+      setFiles([...files, response.data.file]);
+      setNewFile({});
+    }
     setCreatingFile(false);
   }
   const openFile = async (fileId) => {
     navigate(`/file-tracker-frontend/track/${fileId}`)
   }
   return (
-    <div className="flex-box page-box">
+    <div className="flex-box page-box my-files">
+      {
+        snack?.active &&
+        <div style={{position: 'absolute'}}>
+          <Snackbar open={snack.active} setOpen={setSnack} message={snack.message} severity={ snack.severity}/>
+        </div>
+      }
       {
       creatingFile &&
         <AlertDialog

@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 import AlertDialog from "../components/AlertDialog";
 import Button from '@mui/material/Button';
 import avatar from "../media/avatar.png";
+import Snackbar from "../components/Snackbar";
 
 function Navbar() {
   const [sideNav, setSideNav] = useState(true);
   const [authenticating, setAuthenticating] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [ snack, setSnack ] = useState({ active: false, message:"", severity:""});
   const dispatch = useDispatch();
   
   const { user } = useSelector ( state => ({
@@ -32,15 +34,31 @@ function Navbar() {
     if(response.status === "success"){
       dispatch({ type: "user/SET_USER", payload:  {user: response.data.user}});
       localStorage.setItem("token", response.data.token);
-      setAuthenticating(false)
+      setAuthenticating(false);
+      setSnack({
+        active: true,
+        message: "Logged In Successfully!",
+        severity: "success"
+      })
     }
     else{
       console.log(response);
+      setSnack({
+        active: true,
+        message: "Invalid Credentials",
+        severity: "error"
+      })
     }
   }
 
   return (
     <div className='navbar align-middle'>
+      {
+        snack?.active &&
+        <div style={{position: 'absolute'}}>
+        <Snackbar open={snack.active} setOpen={setSnack} message={snack.message} severity={ snack.severity}/>
+        </div>
+      }
       {
       authenticating &&
         <AlertDialog

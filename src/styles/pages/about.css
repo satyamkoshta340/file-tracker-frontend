@@ -1,0 +1,19 @@
+.img-box{
+    width: 35rem;
+}
+.a-img{
+    width: 100%;
+}
+.about{
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+    .img-box{
+        width: 90%;
+    }   
+    .about{
+        display: block;
+    }
+}
