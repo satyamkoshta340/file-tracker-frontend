@@ -8,7 +8,7 @@
     /* border: 5px solid rgb(213, 213, 213); */
     border-radius: 5px;
     box-sizing: border-box;
-    padding: 2rem;
+    /* padding: 2rem; */
     /* background-color: rgba(179, 178, 178, 0.133) */
 }
 
@@ -16,6 +16,17 @@
     width: 10rem;
     border-radius: 5px;
     border: 2px solid grey;
+}
+.profile-item{
+    padding-top: 1rem;
+}
+.profile-row{
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    padding: 10px;
+}
+.profile-row-title{
+    min-width: 6.5rem;
 }
 
 @media screen and (max-width: 768px) {

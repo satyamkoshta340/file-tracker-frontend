@@ -17,9 +17,23 @@ const Profile = () => {
         <div className="profile page-box flex-box">
             <div className="profile-container">
                 <img src={user.picture ? user.picture : avatar} alt="👨" className="profile-img"/>
-                <div>
-                    <h3> { user.firstName }  {user.lastName}</h3>
-                    <h3> { user.email } </h3>
+                <div className="profile-item">
+                    <div className="profile-row">
+                        <div className="profile-row-title">FirstName</div>
+                        <div>{ user.firstName }</div>
+                    </div>
+                    <div className="profile-row">
+                        <div className="profile-row-title">LastName</div>
+                        <div>{ user.lastName }</div>
+                    </div>
+                    <div className="profile-row">
+                        <div className="profile-row-title">Email</div>
+                        <div>{ user.email }</div>
+                    </div>
+                    <div className="profile-row">
+                        <div className="profile-row-title">Department</div>
+                        <div>{ user.department }</div>
+                    </div>
                 </div>
             </div>
             

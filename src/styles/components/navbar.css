@@ -27,3 +27,7 @@
 .user-pic:active{
     border: 2px solid crimson;
 }
+.link{
+    color: #1565c0;
+    cursor: pointer;
+}
