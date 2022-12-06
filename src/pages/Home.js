@@ -19,7 +19,7 @@ export default function Home() {
     const [result, setResult] = useState("")
 
     const startScanning = () => {
-      if( !user.gID ){
+      if( !user._id ){
         setOpen(true);
       }
       else {

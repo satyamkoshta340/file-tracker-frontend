@@ -21,7 +21,8 @@ function FileTrack() {
             mode: 'cors',
             credentials: 'include',
             headers:{
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         });
         const response = await resp.json();
@@ -44,7 +45,7 @@ function FileTrack() {
         console.log(printContents)
     }
     useEffect( ()=>{
-        if( !user.gID ){
+        if( !user._id ){
             navigate("/file-tracker-frontend");
         }
         else{

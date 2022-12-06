@@ -15,7 +15,7 @@ export default function Files() {
     user: state.userStore.user
   }))
   useEffect(()=>{
-    if( !user.gID ){
+    if( !user._id ){
       navigate("/file-tracker-frontend");
     }
     else{
@@ -25,7 +25,8 @@ export default function Files() {
           mode: 'cors',
           credentials: 'include',
           headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}`
           }
         });
         const response = await resp.json();

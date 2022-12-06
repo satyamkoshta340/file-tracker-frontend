@@ -18,15 +18,24 @@ function App() {
   const getUser = async()=>{
     try{
       
-      const data  = await axios.get(`${process.env.REACT_APP_SERVER_URL}/auth/google/success`, { withCredentials: true});
-      const user = data?.data?.data?.user;
-      if( user ){
-        dispatch({ type: "user/SET_USER", payload:  {user}});
+      // const data  = await axios.get(`${process.env.REACT_APP_SERVER_URL}/auth/google/success`, { withCredentials: true});
+      // const user = data?.data?.data?.user;
+      const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/user`, {
+        method: "GET", 
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      })
+      const response = await resp.json();
+      if( response.status === "success" ){
+        dispatch({ type: "user/SET_USER", payload:  { user: response.data.user } });
       }
 
     }
     catch(err){
-      
+      console.error(err);
     }
   }
   useEffect(()=>{
