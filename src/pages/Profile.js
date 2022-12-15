@@ -4,9 +4,7 @@ import { useNavigate  } from "react-router-dom";
 import avatar from "../media/avatar.png";
 
 const Profile = () => {
-    const { user } = useSelector ( state => ({
-        user: state.userStore.user
-    }));
+    const user = useSelector ( state => state.user.value );
     const navigate = useNavigate();
     useEffect( ()=>{
         if(!user._id ){

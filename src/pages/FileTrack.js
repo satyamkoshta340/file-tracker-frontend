@@ -10,9 +10,7 @@ function FileTrack() {
     const qrRef = useRef();
 
     const navigate = useNavigate();
-    const { user } = useSelector ( state => ({
-        user: state.userStore.user
-    }))
+    const user = useSelector ( state => state.user.value );
 
     console.log(fileId)
     const getFileHistory = async ()=>{

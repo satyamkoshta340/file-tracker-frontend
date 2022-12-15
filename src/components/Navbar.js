@@ -6,6 +6,7 @@ import AlertDialog from "../components/AlertDialog";
 import Button from '@mui/material/Button';
 import avatar from "../media/avatar.png";
 import Snackbar from "../components/Snackbar";
+import { setUser } from "../store/user";
 
 function Navbar() {
   const [sideNav, setSideNav] = useState(true);
@@ -19,9 +20,7 @@ function Navbar() {
   const [registering, setRegistering] = useState(false);
   const dispatch = useDispatch();
   
-  const { user } = useSelector ( state => ({
-    user: state.userStore.user
-  }))
+  const user = useSelector ( state => state.user.value );
   
   const login = async ()=>{
     // window.open(`${process.env.REACT_APP_SERVER_URL}/auth/google`, "_self");
@@ -36,7 +35,7 @@ function Navbar() {
     });
     const response = await resp.json();
     if(response.status === "success"){
-      dispatch({ type: "user/SET_USER", payload:  {user: response.data.user}});
+      dispatch(setUser(response.data.user));
       localStorage.setItem("token", response.data.token);
       setAuthenticating(false);
       setSnack({

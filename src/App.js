@@ -1,5 +1,4 @@
 import './styles';
-import axios from "axios";
 import About from './pages/About';
 import Home from './pages/Home';
 import Files from './pages/Files';
@@ -11,6 +10,8 @@ import Profile from './pages/Profile';
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { setUser } from './store/user';
+import { setFiles } from './store/files';
 
 function App() {
 
@@ -30,7 +31,7 @@ function App() {
       })
       const response = await resp.json();
       if( response.status === "success" ){
-        dispatch({ type: "user/SET_USER", payload:  { user: response.data.user } });
+        dispatch(setUser(response.data.user));
       }
 
     }
@@ -38,8 +39,25 @@ function App() {
       console.error(err);
     }
   }
+  const loadUsersFiles = async () =>{
+    const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/file`, {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("token")}`
+      }
+    });
+    const response = await resp.json();
+
+    if( response?.data?.files.length){
+      dispatch(setFiles(response.data.files));
+    };
+  }
   useEffect(()=>{
     getUser();
+    loadUsersFiles();
   }, []);
 
   return (

@@ -1,11 +1,11 @@
-import { createStore, combineReducers } from "redux";
-// import { configureStore } from  "@reduxjs/toolkit";
+import { configureStore } from  "@reduxjs/toolkit";
 
 import userReducer from './user';
+import filesReducer from './files';
 
-const reducer = combineReducers({
-    userStore: userReducer,
-});
-
-const store = createStore( reducer );
-export default store;
+export default configureStore( {
+    reducer: {
+        user: userReducer,
+        files: filesReducer
+    }
+} );

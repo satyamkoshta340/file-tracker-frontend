@@ -1,19 +1,22 @@
 import {useState, useRef} from 'react';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Camera } from 'react-camera-pro';
 import background from '../media/background1.png';
 import AlertDialog from '../components/AlertDialog';
 import { Button } from '@mui/material';
 import Snackbar from "../components/Snackbar";
 import { useNavigate } from "react-router-dom";
+import CreateFileButton from '../components/CreateFileButton';
+import { setUser } from '../store/user';
 
 
 export default function Home() {
-  const { user } = useSelector ( state => ({
-    user: state.userStore.user
-  }))
+  const user = useSelector ( state => state.user.value );
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  const [files, setFiles] = useState([{fileName: "file", description:'done'}, {fileName: "file", description:'done'}]);
+  const [inOut, setInOut] = useState('in');
   const [open, setOpen] = useState(false);
   const [scanning, setScanning] = useState(false);
   const [showQrResult, setShowQrResult] = useState(false);
@@ -25,6 +28,10 @@ export default function Home() {
   const [tick, setTick] = useState();
   const qrcode = window.qrcode;
   const [result, setResult] = useState("")
+
+  const openFile = async (fileId) => {
+    navigate(`/file-tracker-frontend/track/${fileId}`)
+  }
 
   const startScanning = () => {
     if( !user._id ){
@@ -43,6 +50,14 @@ export default function Home() {
   const endScanning = ()=>{
     clearInterval(tick);
     setScanning(false);
+  }
+  const takeInFile = () =>{
+    setInOut('in');
+    startScanning();
+  }
+  const takeOutFile = () =>{
+    setInOut('out');
+    startScanning();
   }
   const updateFileHistory = async (fileId)=>{
     const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/file/history/${fileId}`, {
@@ -134,7 +149,7 @@ export default function Home() {
           actionName = {"Cancel"}
         />
       }
-      <img src={background} className='home-background' alt='background' />
+
       {
         scanning && 
         <div >
@@ -146,20 +161,73 @@ export default function Home() {
           <button className='btn scan-btn' onClick={(e)=>endScanning()}>❌</button>
         </div>
       }
+      <AlertDialog 
+        name={"Start Scan"} 
+        content={"Please Login First!"} 
+        title={"Login"}
+        open={open}
+        setOpen = { setOpen }
+        actionName = {"Okay"}
+      />
       {
         !scanning &&
-        <div className='flex-col-box'>
-          <AlertDialog 
-            name={"Start Scan"} 
-            content={"Please Login First!"} 
-            title={"Login"}
-            open={open}
-            setOpen = { setOpen }
-            actionName = {"Okay"}
-          />
-          <button onClick={ (e) => startScanning() } className="btn scan-btn">
-            Scan
-          </button>
+        <div className='home-user-view'>
+          {
+            !user._id &&
+            <div className='flex-col-box'>
+              <img src={background} className='home-background' alt='background' />
+              
+              <button onClick={ (e) => {
+                dispatch( setUser( {_id: 123}))
+                startScanning()
+               } } className="btn scan-btn">
+                Start
+              </button>
+            </div>
+          }
+          {
+            user._id &&
+            <div>
+              <div className='flex-box home-user-view-wrapper'>
+                <div className='home-display-block'>
+                  <Button variant="outlined" id="home-display-btn" onClick={(e)=> navigate('/file-tracker-frontend/files')}> Existing Files </Button>
+                </div>
+                <div className='home-display-block'>
+                <CreateFileButton id="home-display-btn-full"/>
+                  {/* <Button variant="outlined" id="home-display-btn"> Create New File </Button> */}
+                </div>
+                <div className='flex-col-box' style={{ height: '10rem', justifyContent: 'space-between'}}>
+                  <div className='home-display-block' style={{height:'4rem'}}>
+                    <Button variant="outlined" id="home-display-btn" onClick={(e)=> takeInFile()}> IN File </Button>
+                  </div>
+                  <div className='home-display-block' style={{height:'4rem'}}>
+                    <Button variant="outlined" id="home-display-btn" onClick={(e)=> takeOutFile()}> OUT File </Button>
+                  </div>
+                </div>
+              </div>
+              <div style={{padding:'2rem'}}>
+                <span className='recent'>Recent Files</span>
+                <div className='flex-box recent-files'>
+                {
+                  files.map(file=>{
+                    return <div className="file-container flex-col-box" key={file.fileId} onClick={(e)=>openFile(file.fileId)}>
+                      <div>
+                        <b>Name</b> <br/>
+                        {file.fileName}
+                      </div>
+                      <div>
+                      <b>Description</b> <br/>
+                        {file.description}
+                      </div>
+                    </div>
+                  })
+                }
+                </div>
+                
+              </div>
+            </div>
+          }
+
         </div>
       }
     </div>

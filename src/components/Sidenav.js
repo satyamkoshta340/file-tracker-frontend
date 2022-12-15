@@ -2,6 +2,7 @@ import { useState, useEffect} from "react";
 import { Link } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setUser } from "../store/user";
 
 export default function Sidenav(flag) {
     const [sideNav, setSideNav] = useState(false);
@@ -18,7 +19,7 @@ export default function Sidenav(flag) {
         //     dispatch({ type: "user/SET_USER", payload:  { user:{} } });
         // }
         localStorage.removeItem("token");
-        dispatch({ type: "user/SET_USER", payload:  { user:{} } });
+        dispatch( setUser({}));
         setSideNav(false);
         navigate("/file-tracker-frontend")
     }
