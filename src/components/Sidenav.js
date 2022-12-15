@@ -13,13 +13,13 @@ export default function Sidenav(flag) {
         setSideNav(flag.flag);
     })
     const logout = async ()=>{
-        // const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/logout`, { credentials: 'include'});
-        // const resp = await response.json();
-        // if( resp.status === "success" ){
-        //     dispatch({ type: "user/SET_USER", payload:  { user:{} } });
-        // }
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/logout`, { credentials: 'include'});
+        const resp = await response.json();
+        if( resp.status === "success" ){
+            dispatch( setUser({}) );
+        }
         localStorage.removeItem("token");
-        dispatch( setUser({}));
+        // dispatch( setUser({}));
         setSideNav(false);
         navigate("/file-tracker-frontend")
     }

@@ -23,79 +23,80 @@ function Navbar() {
   const user = useSelector ( state => state.user.value );
   
   const login = async ()=>{
-    // window.open(`${process.env.REACT_APP_SERVER_URL}/auth/google`, "_self");
+    window.open(`${process.env.REACT_APP_SERVER_URL}/auth/google`, "_self");
     // console.log("logging", email, password);
-    const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/login`, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({email, password})
-    });
-    const response = await resp.json();
-    if(response.status === "success"){
-      dispatch(setUser(response.data.user));
-      localStorage.setItem("token", response.data.token);
-      setAuthenticating(false);
-      setSnack({
-        active: true,
-        message: "Logged In Successfully!",
-        severity: "success"
-      })
-    }
-    else{
-      console.log(response);
-      setSnack({
-        active: true,
-        message: "Invalid Credentials",
-        severity: "error"
-      })
-    }
+
+    // const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/login`, {
+    //   method: "POST",
+    //   mode: "cors",
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify({email, password})
+    // });
+    // const response = await resp.json();
+    // if(response.status === "success"){
+    //   dispatch(setUser(response.data.user));
+    //   localStorage.setItem("token", response.data.token);
+    //   setAuthenticating(false);
+    //   setSnack({
+    //     active: true,
+    //     message: "Logged In Successfully!",
+    //     severity: "success"
+    //   })
+    // }
+    // else{
+    //   console.log(response);
+    //   setSnack({
+    //     active: true,
+    //     message: "Invalid Credentials",
+    //     severity: "error"
+    //   })
+    // }
   }
 
-  const register = async() =>{
-    if( email.length === 0 || department.length === 0 || password.length === 0 || firstName.length === 0 || lastName.length === 0){
-      setSnack({
-        active: true,
-        message: "Please provide all the details",
-        severity: "error"
-      });
-      return;
-    }
-    const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/signup`, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({firstName, lastName, email, password, department})
-    });
-    const response = await resp.json();
-    if(response.status === "success"){
-      dispatch({ type: "user/SET_USER", payload:  {user: response.data.user}});
-      localStorage.setItem("token", response.data.token);
-      setAuthenticating(false);
-      setSnack({
-        active: true,
-        message: "Account Created Successfully!",
-        severity: "success"
-      })
-      setRegistering(false);
-    }
-    else{
-      console.log(response);
-      setSnack({
-        active: true,
-        message: response?.data?.message ? response?.data?.message : "Something went wrong!",
-        severity: "error"
-      })
-    }
-  }
+  // const register = async() =>{
+  //   if( email.length === 0 || department.length === 0 || password.length === 0 || firstName.length === 0 || lastName.length === 0){
+  //     setSnack({
+  //       active: true,
+  //       message: "Please provide all the details",
+  //       severity: "error"
+  //     });
+  //     return;
+  //   }
+  //   const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/signup`, {
+  //     method: "POST",
+  //     mode: "cors",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify({firstName, lastName, email, password, department})
+  //   });
+  //   const response = await resp.json();
+  //   if(response.status === "success"){
+  //     dispatch({ type: "user/SET_USER", payload:  {user: response.data.user}});
+  //     localStorage.setItem("token", response.data.token);
+  //     setAuthenticating(false);
+  //     setSnack({
+  //       active: true,
+  //       message: "Account Created Successfully!",
+  //       severity: "success"
+  //     })
+  //     setRegistering(false);
+  //   }
+  //   else{
+  //     console.log(response);
+  //     setSnack({
+  //       active: true,
+  //       message: response?.data?.message ? response?.data?.message : "Something went wrong!",
+  //       severity: "error"
+  //     })
+  //   }
+  // }
 
   return (
     <div className='navbar align-middle'>
-      {
+      {/* {
         snack?.active &&
         <div style={{position: 'absolute'}}>
         <Snackbar open={snack.active} setOpen={setSnack} message={snack.message} severity={ snack.severity}/>
@@ -160,7 +161,7 @@ function Navbar() {
           actionName = {"Cancel"}
           setOpen = { setAuthenticating }
         />
-    }
+    } */}
         <div className='container nav-content'>
           <Link to={"/file-tracker-frontend"} className="logo">
             Let's Track
@@ -168,7 +169,7 @@ function Navbar() {
             {
               !user._id &&
               <div>
-                <button className='btn' onClick={(e)=>setAuthenticating(true)}>Login</button>
+                <button className='btn' onClick={(e)=> login() }>Login</button>
               </div>
             }
             {

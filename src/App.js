@@ -21,9 +21,10 @@ function App() {
       
       // const data  = await axios.get(`${process.env.REACT_APP_SERVER_URL}/auth/google/success`, { withCredentials: true});
       // const user = data?.data?.data?.user;
-      const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/user`, {
+      const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/google/success`, {
         method: "GET", 
         mode: "cors",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${localStorage.getItem("token")}`
