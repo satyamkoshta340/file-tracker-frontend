@@ -158,7 +158,7 @@ export default function Home() {
           aspectRatio= {4 / 3}
           numberOfCamerasCallback={i => setNumberOfCameras(i)}
           />
-          <button className='btn scan-btn' onClick={(e)=>endScanning()}>❌</button>
+          <button className='btn scan-btn-cancel' onClick={(e)=>endScanning()}>❌</button>
         </div>
       }
       <AlertDialog 
@@ -212,11 +212,11 @@ export default function Home() {
                   files.map(file=>{
                     return <div className="file-container flex-col-box" key={file.fileId} onClick={(e)=>openFile(file.fileId)}>
                       <div>
-                        <b>Name</b> <br/>
+                        <b style={{color: "rgb(108, 108, 108)", fontStyle: "italic"}}>Name</b> <br/>
                         {file.fileName}
                       </div>
                       <div>
-                      <b>Description</b> <br/>
+                      <b style={{color: "rgb(108, 108, 108)", fontStyle: "italic"}}>Description</b> <br/>
                         {file.description}
                       </div>
                     </div>

@@ -8,6 +8,9 @@
     z-index: -2;
 }
 
+.scan-btn-cancel{
+    margin-top: 15rem;
+}
 .scan-btn{
     margin-top: 30rem;
 }
@@ -70,6 +73,9 @@
     .home-display-block{
         height: 4rem;
     }
+    #home-display-btn-full{
+        height: 4rem;
+    }
     .home-user-view-wrapper{
         flex-direction: column;
         box-sizing: border-box;
@@ -77,6 +83,7 @@
     }
     .recent-files{
         justify-content: center;
-        flex-direction: column;
+        gap: 1rem;
+        /* flex-direction: column; */
     }
 }

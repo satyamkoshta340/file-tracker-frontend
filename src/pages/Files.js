@@ -43,11 +43,11 @@ export default function Files() {
           files.map(file=>{
             return <div className="file-container flex-col-box" key={file.fileId} onClick={(e)=>openFile(file.fileId)}>
               <div>
-                <b>Name</b> <br/>
+                <b style={{color: "rgb(108, 108, 108)", fontStyle: "italic"}}>Name</b> <br/>
                 {file.fileName}
               </div>
               <div>
-              <b>Description</b> <br/>
+              <b style={{color: "rgb(108, 108, 108)", fontStyle: "italic"}}>Description</b> <br/>
                 {file.description}
               </div>
             </div>

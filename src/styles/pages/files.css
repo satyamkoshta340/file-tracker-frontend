@@ -1,15 +1,21 @@
+.my-files{
+    padding-top: 2rem;
+    justify-content: center;
+}
 .files-box{
-    align-self: flex-start;
+    /* align-self: flex-start; */
     justify-self: right;
     display: flex;
-    gap: 4rem;
+    gap: 2rem;
     box-sizing: border-box;
     padding: 2rem;
+    max-width: 1250px;
+    flex-wrap: wrap;
 }
 
 .file-container{
-    width: 14rem;
-    height: 15rem;
+    width: 12.5rem;
+    height: 14rem;
     display: flex;
     box-sizing: border-box;
     padding: 1rem;
@@ -43,7 +49,16 @@
 
 @media screen and (max-width: 768px) {
     .files-box{
-        flex-direction: column;
-        gap: 2rem;
+        /* flex-direction: column; */
+        justify-content: center;
+        gap: 1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .file-container{
+        width: 10rem;
+        height: 12rem;
+        padding: 10px;
+        font-size: 14px;
     }
 }
