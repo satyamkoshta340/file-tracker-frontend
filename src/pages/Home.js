@@ -1,4 +1,4 @@
-import {useState, useRef} from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { Camera } from 'react-camera-pro';
 import background from '../media/background1.png';
@@ -15,7 +15,6 @@ export default function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [files, setFiles] = useState([{fileName: "file", description:'done'}, {fileName: "file", description:'done'}]);
   const [inOut, setInOut] = useState('in');
   const [open, setOpen] = useState(false);
   const [scanning, setScanning] = useState(false);
@@ -23,11 +22,34 @@ export default function Home() {
   const [numberOfCameras, setNumberOfCameras] = useState(0);
   const [snack, setSnack] = useState();
   const camera = useRef(null);
+  const [info, setInfo] = useState("");
+  const [recentFiles, setRecenetFiles] = useState([]);
   
 
   const [tick, setTick] = useState();
   const qrcode = window.qrcode;
   const [result, setResult] = useState("")
+
+  useEffect(
+    ()=>{
+      const func = async () =>{
+        const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/user/recent-files`, {
+          method: 'GET',
+          mode: 'cors',
+          credentials: 'include',
+          headers:{
+              'content-type': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem("token")}`
+          }
+        });
+        const response = await resp.json();
+        if( response.status === "success"){
+          setRecenetFiles(response.data?.recentFiles)
+        }
+      }
+      func();
+    }
+  );
 
   const openFile = async (fileId) => {
     navigate(`/file-tracker-frontend/track/${fileId}`)
@@ -51,15 +73,15 @@ export default function Home() {
     clearInterval(tick);
     setScanning(false);
   }
-  const takeInFile = () =>{
-    setInOut('in');
-    startScanning();
+  const takeInFile = (fileId) =>{
+    setInfo(`File recieved by ${user.firstName} ${user.lastName}.`)
+    updateFileHistory(fileId);
   }
-  const takeOutFile = () =>{
-    setInOut('out');
-    startScanning();
+  const sendOutFile = (fileId) =>{
+    updateFileHistory(fileId);
   }
   const updateFileHistory = async (fileId)=>{
+    console.log(info)
     const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/file/history/${fileId}`, {
       method: 'POST',
       mode: 'cors',
@@ -69,10 +91,11 @@ export default function Home() {
           'Authorization': `Bearer ${localStorage.getItem("token")}`
       },
       body: JSON.stringify({
-        info: ""
+        info: info
       })
     });
     const response = await resp.json();
+    console.log(resp)
     if( response.status === "success" ){
       setSnack({
         active: true,
@@ -133,17 +156,26 @@ export default function Home() {
       {
         showQrResult &&
         <AlertDialog 
-          name={"Scan Result"} 
+          name={`${ inOut === 'in' ? 'Taking In ' : 'Sending Out '}`} 
           content={
-            <div style={{width:"100%"}}>
-              { `File "${result.fileName}", wanna view file or update new file spot.` }
+            <div style={{width:"100%", color:"black"}}>
+              { `${ inOut === 'in' ? 'Taking In ' : 'Sending Out '} File "${result.fileName}"` }
+              { inOut == 'out' &&
+              <div>
+                Set Reciever description <input type={"text"} onChange= {(e) => setInfo(e.target.value)}></input>
+              </div>
+              }  
               <div className='flex-box' style={{width:"100%", justifyContent: "space-between", paddingTop: '1rem'}}>
                 <Button variant="contained" onClick={(e) => navigate(`/file-tracker-frontend/track/${result.fileId}`) }>View</Button>
-                <Button variant="contained" onClick={(e) => updateFileHistory(result.fileId)}>Update</Button>
+                <Button variant="contained" onClick={(e) => {
+                  // updateFileHistory(result.fileId)
+                  inOut === 'in' ? takeInFile(result.fileId) : sendOutFile(result.fileId);
+                }
+                }>{ inOut === 'in' ? 'Take In' : 'Send Out'}</Button>
               </div>
             </div>
           } 
-          title={"QR Scan Result"}
+          title={`${ inOut === 'in' ? 'Taking In ' : 'Sending Out '}`}
           open={showQrResult}
           setOpen = { setShowQrResult }
           actionName = {"Cancel"}
@@ -178,7 +210,6 @@ export default function Home() {
               <img src={background} className='home-background' alt='background' />
               
               <button onClick={ (e) => {
-                dispatch( setUser( {_id: 123}))
                 startScanning()
                } } className="btn scan-btn">
                 Start
@@ -193,15 +224,22 @@ export default function Home() {
                   <Button variant="outlined" id="home-display-btn" onClick={(e)=> navigate('/file-tracker-frontend/files')}> Existing Files </Button>
                 </div>
                 <div className='home-display-block'>
-                <CreateFileButton id="home-display-btn-full"/>
-                  {/* <Button variant="outlined" id="home-display-btn"> Create New File </Button> */}
+                  <CreateFileButton id="home-display-btn"/>
                 </div>
                 <div className='flex-col-box' style={{ height: '10rem', justifyContent: 'space-between'}}>
-                  <div className='home-display-block' style={{height:'4rem'}}>
-                    <Button variant="outlined" id="home-display-btn" onClick={(e)=> takeInFile()}> IN File </Button>
+                  <div className='home-display-block' >
+                    <Button variant="outlined" id="home-display-btn" onClick={(e)=> {
+                      setInOut('in');
+                      startScanning();
+                      }
+                    } style={{height:'4rem'}}> IN File </Button>
                   </div>
                   <div className='home-display-block' style={{height:'4rem'}}>
-                    <Button variant="outlined" id="home-display-btn" onClick={(e)=> takeOutFile()}> OUT File </Button>
+                    <Button variant="outlined" id="home-display-btn" onClick={(e)=> {
+                      setInOut('out');
+                      startScanning();
+                      }
+                    } style={{height:'4rem'}}> OUT File </Button>
                   </div>
                 </div>
               </div>
@@ -209,8 +247,8 @@ export default function Home() {
                 <span className='recent'>Recent Files</span>
                 <div className='flex-box recent-files'>
                 {
-                  files.map(file=>{
-                    return <div className="file-container flex-col-box" key={file.fileId} onClick={(e)=>openFile(file.fileId)}>
+                  recentFiles.map(file=>{
+                    return <div className="file-container flex-col-box" key={file._id} onClick={(e)=>openFile(file._id)}>
                       <div>
                         <b style={{color: "rgb(108, 108, 108)", fontStyle: "italic"}}>Name</b> <br/>
                         {file.fileName}

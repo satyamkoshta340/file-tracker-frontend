@@ -43,14 +43,6 @@
 }
 #home-display-btn{
     width: 100%;
-    height: 100%;
-    font-size: 1.1rem;
-    background-color: rgba(220, 20, 60, 0.151);
-    border: 1px solid crimson;
-    color: black;
-}
-#home-display-btn-full{
-    width: 100%;
     height: 10rem;
     font-size: 1.1rem;
     background-color: rgba(220, 20, 60, 0.151);
@@ -73,7 +65,7 @@
     .home-display-block{
         height: 4rem;
     }
-    #home-display-btn-full{
+    #home-display-btn{
         height: 4rem;
     }
     .home-user-view-wrapper{
@@ -84,6 +76,6 @@
     .recent-files{
         justify-content: center;
         gap: 1rem;
-        /* flex-direction: column; */
+        flex-wrap: wrap;
     }
 }
