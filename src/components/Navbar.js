@@ -22,81 +22,83 @@ function Navbar() {
   
   const user = useSelector ( state => state.user.value );
   
-  const login = async ()=>{
+  const loginByGoogle = async () => {
     window.open(`${process.env.REACT_APP_SERVER_URL}/auth/google`, "_self");
+  }
+  const loginByEmail = async ()=>{
     // console.log("logging", email, password);
 
-    // const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/login`, {
-    //   method: "POST",
-    //   mode: "cors",
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify({email, password})
-    // });
-    // const response = await resp.json();
-    // if(response.status === "success"){
-    //   dispatch(setUser(response.data.user));
-    //   localStorage.setItem("token", response.data.token);
-    //   setAuthenticating(false);
-    //   setSnack({
-    //     active: true,
-    //     message: "Logged In Successfully!",
-    //     severity: "success"
-    //   })
-    // }
-    // else{
-    //   console.log(response);
-    //   setSnack({
-    //     active: true,
-    //     message: "Invalid Credentials",
-    //     severity: "error"
-    //   })
-    // }
+    const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/login`, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({email, password})
+    });
+    const response = await resp.json();
+    if(response.status === "success"){
+      dispatch(setUser(response.data.user));
+      localStorage.setItem("token", response.data.token);
+      setAuthenticating(false);
+      setSnack({
+        active: true,
+        message: "Logged In Successfully!",
+        severity: "success"
+      })
+    }
+    else{
+      console.log(response);
+      setSnack({
+        active: true,
+        message: "Invalid Credentials",
+        severity: "error"
+      })
+    }
   }
 
-  // const register = async() =>{
-  //   if( email.length === 0 || department.length === 0 || password.length === 0 || firstName.length === 0 || lastName.length === 0){
-  //     setSnack({
-  //       active: true,
-  //       message: "Please provide all the details",
-  //       severity: "error"
-  //     });
-  //     return;
-  //   }
-  //   const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/signup`, {
-  //     method: "POST",
-  //     mode: "cors",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify({firstName, lastName, email, password, department})
-  //   });
-  //   const response = await resp.json();
-  //   if(response.status === "success"){
-  //     dispatch({ type: "user/SET_USER", payload:  {user: response.data.user}});
-  //     localStorage.setItem("token", response.data.token);
-  //     setAuthenticating(false);
-  //     setSnack({
-  //       active: true,
-  //       message: "Account Created Successfully!",
-  //       severity: "success"
-  //     })
-  //     setRegistering(false);
-  //   }
-  //   else{
-  //     console.log(response);
-  //     setSnack({
-  //       active: true,
-  //       message: response?.data?.message ? response?.data?.message : "Something went wrong!",
-  //       severity: "error"
-  //     })
-  //   }
-  // }
+  const registerByEmail = async() =>{
+    if( email.length === 0 || department.length === 0 || password.length === 0 || firstName.length === 0 || lastName.length === 0){
+      setSnack({
+        active: true,
+        message: "Please provide all the details",
+        severity: "error"
+      });
+      return;
+    }
+    const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/signup`, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({firstName, lastName, email, password, department})
+    });
+    const response = await resp.json();
+    if(response.status === "success"){
+      dispatch({ type: "user/SET_USER", payload:  {user: response.data.user}});
+      localStorage.setItem("token", response.data.token);
+      setAuthenticating(false);
+      setSnack({
+        active: true,
+        message: "Account Created Successfully!",
+        severity: "success"
+      })
+      setRegistering(false);
+    }
+    else{
+      console.log(response);
+      setSnack({
+        active: true,
+        message: response?.data?.message ? response?.data?.message : "Something went wrong!",
+        severity: "error"
+      })
+    }
+  }
 
   return (
     <div className='navbar align-middle'>
-      {/* {
+      {
         snack?.active &&
         <div style={{position: 'absolute'}}>
         <Snackbar open={snack.active} setOpen={setSnack} message={snack.message} severity={ snack.severity}/>
@@ -138,12 +140,13 @@ function Navbar() {
             </div>
             {
               registering ?
-                <Button variant="contained" color="success" onClick={(e) => register()}>Register</Button>:
-                <Button variant="contained" onClick={()=> login()}>
+                <Button variant="contained" color="success" onClick={(e) => registerByEmail()}>Register</Button>:
+                <Button variant="contained" onClick={()=> loginByEmail()}>
                   Login
                 </Button>
             }
-            <div>
+            <div className="flex-col-box">
+              <div>
               { !registering ?
                 <div className="flex-box">
                   <p>"New to Let's Track?"</p>
@@ -154,6 +157,8 @@ function Navbar() {
                   <p className="link" onClick={(e)=> setRegistering(false)}> LogIn.</p>
                 </div>
               }
+              </div>
+              <div className="link" onClick={(e)=> loginByGoogle()}>Login with Google</div>
             </div>
           </div>} 
           title={ registering? "Register" :"Login"}
@@ -161,7 +166,7 @@ function Navbar() {
           actionName = {"Cancel"}
           setOpen = { setAuthenticating }
         />
-    } */}
+    }
         <div className='container nav-content'>
           <Link to={"/file-tracker-frontend"} className="logo">
             Let's Track
@@ -169,7 +174,7 @@ function Navbar() {
             {
               !user._id &&
               <div>
-                <button className='btn' onClick={(e)=> login() }>Login</button>
+                <button className='btn' onClick={(e)=> setAuthenticating(true) }>Login</button>
               </div>
             }
             {

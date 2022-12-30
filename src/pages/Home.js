@@ -48,7 +48,7 @@ export default function Home() {
         }
       }
       func();
-    }
+    }, []
   );
 
   const openFile = async (fileId) => {

@@ -26,13 +26,28 @@ function App() {
         mode: "cors",
         credentials: 'include',
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("token")}`
+          "Content-Type": "application/json"
         }
       })
       const response = await resp.json();
       if( response.status === "success" ){
+        console.log("google")
         dispatch(setUser(response.data.user));
+      }
+      else{
+        const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/user`, {
+          method: "GET", 
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+          }
+        })
+        const response = await resp.json();
+        if( response.status === "success" ){
+          console.log("email")
+          dispatch(setUser(response.data.user));
+        }
       }
 
     }
