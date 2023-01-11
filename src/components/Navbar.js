@@ -1,12 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
 import Sidenav from "./Sidenav";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AlertDialog from "../components/AlertDialog";
 import Button from '@mui/material/Button';
 import avatar from "../media/avatar.png";
 import Snackbar from "../components/Snackbar";
 import { setUser } from "../store/user";
+import axios from 'axios';
 
 function Navbar() {
   const [sideNav, setSideNav] = useState(true);
@@ -20,11 +21,59 @@ function Navbar() {
   const [registering, setRegistering] = useState(false);
   const dispatch = useDispatch();
   
-  const user = useSelector ( state => state.user.value );
+  const user = useSelector( state => state.user.value );
   
   const loginByGoogle = async () => {
     window.open(`${process.env.REACT_APP_SERVER_URL}/auth/google`, "_self");
   }
+
+  const handleGoogle = async (google) => {
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/auth/google`, {
+        credential: google.credential,
+      });
+
+      if( response.data.status === "success"){
+        dispatch(setUser(response.data.user))
+        localStorage.setItem("token", response.data.token);
+        setAuthenticating(false);
+        setSnack({
+          active: true,
+          message: "Logged In Successfully!",
+          severity: "success"
+        })
+      }
+      
+
+    } catch (err) {
+      console.error(err)
+    }
+  };
+  useEffect(() => {
+    /* global google */
+    console.log(user)
+    setTimeout(()=>{
+      console.log(user)
+      if (window.google && !user._id) {
+        console.log("google");
+        google.accounts.id.initialize({
+          client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+          callback: handleGoogle,
+        });
+        google.accounts.id.renderButton(document.getElementById("googleDiv"), {
+          // type: "standard",
+          theme: "filled_black",
+          // size: "small",
+          text: "continue_with",
+          shape: "pill",
+        });
+        // google.accounts.id.prompt();
+        
+      }
+    },100)
+    
+  }, [authenticating]);
+
   const loginByEmail = async ()=>{
     // console.log("logging", email, password);
 
@@ -149,16 +198,16 @@ function Navbar() {
               <div>
               { !registering ?
                 <div className="flex-box">
-                  <p>"New to Let's Track?"</p>
-                  <p className="link" onClick={(e)=> setRegistering(true)}>Create an account.</p>
+                  <div>"New to Let's Track?"</div>
+                  <div className="link" onClick={(e)=> setRegistering(true)}>Create an account.</div>
                 </div> :
                 <div className="flex-box">
-                  <p>Existing User? </p>
-                  <p className="link" onClick={(e)=> setRegistering(false)}> LogIn.</p>
+                  <div>Existing User? </div>
+                  <div className="link" onClick={(e)=> setRegistering(false)}> LogIn.</div>
                 </div>
               }
               </div>
-              <div className="link" onClick={(e)=> loginByGoogle()}>Login with Google</div>
+              <div id="googleDiv" ></div>
             </div>
           </div>} 
           title={ registering? "Register" :"Login"}

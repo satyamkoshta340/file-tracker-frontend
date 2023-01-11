@@ -67,7 +67,7 @@ function App() {
     });
     const response = await resp.json();
 
-    if( response?.data?.files.length){
+    if( response?.data?.files?.length){
       dispatch(setFiles(response.data.files));
     };
   }
