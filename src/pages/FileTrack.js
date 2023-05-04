@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
+import * as React from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 function FileTrack() {
     const { fileId } = useParams();
@@ -8,31 +11,39 @@ function FileTrack() {
     const [ file, setFile ] = useState({});
     const [ qr, setQr ] = useState("");
     const qrRef = useRef();
+    const [isLoading, setIsLoading] = useState(false);
 
-    const navigate = useNavigate();
-    const user = useSelector ( state => state.user.value );
+    // const navigate = useNavigate();
+    // const user = useSelector ( state => state.user.value );
 
     console.log(fileId)
     const getFileHistory = async ()=>{
-        const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/file/history/${fileId}`, {
-            method: 'GET',
-            mode: 'cors',
-            credentials: 'include',
-            headers:{
-                'content-type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("token")}`
+        setIsLoading(true);
+        try{
+            const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/file/history/${fileId}`, {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include',
+                headers:{
+                    'content-type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+            const response = await resp.json();
+            console.log(response);
+            if(response.data.history){
+                setHistory(response.data.history);
+                setFile(response.data.file);
+                setQr(response.data.qr);
             }
-        });
-        const response = await resp.json();
-        console.log(response);
-        if(response.data.history){
-            setHistory(response.data.history);
-            setFile(response.data.file);
-            setQr(response.data.qr);
+            else{
+                setHistory(null);
+            }
         }
-        else{
-            setHistory(null);
+        catch(err){
+            console.log(err);
         }
+        setIsLoading(false);
     }
     const printQR = () => {
         const printContents = `<img src="data:image/jpeg;base64,${qr}" alt="QR" style="width:100%"/>`
@@ -43,14 +54,18 @@ function FileTrack() {
         console.log(printContents)
     }
     useEffect( ()=>{
-        if( !user._id ){
-            navigate("/file-tracker-frontend");
-        }
-        else{
-            getFileHistory();
-        }
+        getFileHistory();
     }, [])
-  return (
+    
+    if( isLoading ){
+        return (
+            <Box sx={{ display: 'flex', flex: 1, height: '95vh', alignItems: 'center', justifyContent: 'center' }}>
+            <CircularProgress color="secondary"/>
+            </Box>
+        );
+    }
+
+    return (
     <div className='track-view page-box'>
         <div className='container'>
             {
