@@ -5,11 +5,15 @@
     box-sizing: border-box;
     padding-left: 2rem;
     padding-right: 2rem;
+    background-color: crimson;
 }
 .nav-content{
     justify-content: space-between;
 }
 
+#logo{
+    color: white;
+}
 .logo{
     font-size: 2rem;
     font-weight: 800;

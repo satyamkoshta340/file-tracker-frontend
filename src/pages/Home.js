@@ -75,12 +75,12 @@ export default function Home() {
   }
   const takeInFile = (fileId) =>{
     setInfo(`File recieved by ${user.firstName} ${user.lastName}.`)
-    updateFileHistory(fileId);
+    updateFileHistory(fileId, "recieve");
   }
   const sendOutFile = (fileId) =>{
-    updateFileHistory(fileId);
+    updateFileHistory(fileId, "send");
   }
-  const updateFileHistory = async (fileId)=>{
+  const updateFileHistory = async (fileId, type)=>{
     console.log(info)
     const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/file/history/${fileId}`, {
       method: 'POST',
@@ -91,7 +91,8 @@ export default function Home() {
           'Authorization': `Bearer ${localStorage.getItem("token")}`
       },
       body: JSON.stringify({
-        info: info
+        info: info,
+        type
       })
     });
     const response = await resp.json();
@@ -113,7 +114,9 @@ export default function Home() {
     }
   }
   const checkResult = async (res) => {
-    const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/file/${res}`, {
+    const pos = res.search("/track/");
+    const fileId = res.substring(pos+7);
+    const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/file/${fileId}`, {
       method: 'GET',
       mode: 'cors',
       credentials: 'include',
@@ -209,11 +212,11 @@ export default function Home() {
             <div className='flex-col-box'>
               <img src={background} className='home-background' alt='background' />
               
-              <button onClick={ (e) => {
+              {/* <button onClick={ (e) => {
                 startScanning()
                } } className="btn scan-btn">
                 Start
-              </button>
+              </button> */}
             </div>
           }
           {

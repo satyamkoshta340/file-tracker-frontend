@@ -87,14 +87,24 @@ function Navbar() {
     });
     const response = await resp.json();
     if(response.status === "success"){
-      dispatch(setUser(response.data.user));
-      localStorage.setItem("token", response.data.token);
-      setAuthenticating(false);
-      setSnack({
-        active: true,
-        message: "Logged In Successfully!",
-        severity: "success"
-      })
+      if( response.data?.user ){
+        dispatch(setUser(response.data.user));
+        localStorage.setItem("token", response.data.token);
+        setAuthenticating(false);
+        setSnack({
+          active: true,
+          message: "Logged In Successfully!",
+          severity: "success"
+        })
+      }
+      else{
+        setAuthenticating(false);
+        setSnack({
+          active: true,
+          message: "Please Verify Email First, Verification link sent to given email.!",
+          severity: "error"
+        })
+      }
     }
     else{
       console.log(response);
@@ -130,7 +140,7 @@ function Navbar() {
       setAuthenticating(false);
       setSnack({
         active: true,
-        message: "Account Created Successfully!",
+        message: "Please Verify Email, Verification link sent to given email.!",
         severity: "success"
       })
       setRegistering(false);
@@ -217,13 +227,13 @@ function Navbar() {
         />
     }
         <div className='container nav-content'>
-          <Link to={"/file-tracker-frontend"} className="logo">
+          <Link to={"/file-tracker-frontend"} className="logo" id="logo">
             Let's Track
           </Link>
             {
               !user._id &&
               <div>
-                <button className='btn' onClick={(e)=> setAuthenticating(true) }>Login</button>
+                <button className='btn' onClick={(e)=> setAuthenticating(true) }>Login/SignUp</button>
               </div>
             }
             {
