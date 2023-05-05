@@ -21,20 +21,20 @@ export default function Sidenav(flag) {
         localStorage.removeItem("token");
         dispatch( setUser({}));
         setSideNav(false);
-        navigate("/file-tracker-frontend")
+        navigate("/")
     }
     return (
         <div className={`nav-features flex-box ${sideNav ? "nav-features-active" : ""}`}>
-            <Link to={"/file-tracker-frontend"} className="nav-feature">
+            <Link to={"/"} className="nav-feature">
                 Home
             </Link>
-            <Link to={"/file-tracker-frontend/profile"} className="nav-feature">
+            <Link to={"/profile"} className="nav-feature">
                 Profile
             </Link>
-            <Link to={"/file-tracker-frontend/files"} className="nav-feature">
+            <Link to={"/files"} className="nav-feature">
                 My Files
             </Link>
-            <Link to={"/file-tracker-frontend/about"} className="nav-feature">
+            <Link to={"/about"} className="nav-feature">
                 About Us
             </Link>
             <div  className="nav-feature" onClick={(e)=>logout()} >

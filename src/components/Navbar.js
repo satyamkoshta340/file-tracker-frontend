@@ -227,7 +227,7 @@ function Navbar() {
         />
     }
         <div className='container nav-content'>
-          <Link to={"/file-tracker-frontend"} className="logo" id="logo">
+          <Link to={"/"} className="logo" id="logo">
             Let's Track
           </Link>
             {

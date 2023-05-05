@@ -52,7 +52,7 @@ export default function Home() {
   );
 
   const openFile = async (fileId) => {
-    navigate(`/file-tracker-frontend/track/${fileId}`)
+    navigate(`/track/${fileId}`)
   }
 
   const startScanning = () => {
@@ -103,7 +103,7 @@ export default function Home() {
         message: "File Spot updated successfully",
         severity: "success"
       });
-      navigate(`/file-tracker-frontend/track/${result.fileId}`);
+      navigate(`/track/${result.fileId}`);
     }
     else{
       setSnack({
@@ -169,7 +169,7 @@ export default function Home() {
               </div>
               }  
               <div className='flex-box' style={{width:"100%", justifyContent: "space-between", paddingTop: '1rem'}}>
-                <Button variant="contained" onClick={(e) => navigate(`/file-tracker-frontend/track/${result.fileId}`) }>View</Button>
+                <Button variant="contained" onClick={(e) => navigate(`/track/${result.fileId}`) }>View</Button>
                 <Button variant="contained" onClick={(e) => {
                   // updateFileHistory(result.fileId)
                   inOut === 'in' ? takeInFile(result.fileId) : sendOutFile(result.fileId);
@@ -224,7 +224,7 @@ export default function Home() {
             <div>
               <div className='flex-box home-user-view-wrapper'>
                 <div className='home-display-block'>
-                  <Button variant="outlined" id="home-display-btn" onClick={(e)=> navigate('/file-tracker-frontend/files')}> Existing Files </Button>
+                  <Button variant="outlined" id="home-display-btn" onClick={(e)=> navigate('/files')}> Existing Files </Button>
                 </div>
                 <div className='home-display-block'>
                   <CreateFileButton id="home-display-btn"/>

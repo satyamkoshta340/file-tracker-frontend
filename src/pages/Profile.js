@@ -8,7 +8,7 @@ const Profile = () => {
     const navigate = useNavigate();
     useEffect( ()=>{
         if(!user._id ){
-            navigate("/file-tracker-frontend")
+            navigate("/")
         }
     }, [user, navigate])
     return (

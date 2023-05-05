@@ -12,12 +12,12 @@ export default function Files() {
 
   useEffect(()=>{
     if( !user._id ){
-      navigate("/file-tracker-frontend");
+      navigate("/");
     }
   }, [])
 
   const openFile = async (fileId) => {
-    navigate(`/file-tracker-frontend/track/${fileId}`)
+    navigate(`/track/${fileId}`)
   }
   return (
     <div className="flex-box page-box my-files">
