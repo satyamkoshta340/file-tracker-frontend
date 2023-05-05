@@ -80,11 +80,11 @@ function App() {
     <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/file-tracker-frontend" element={ <Home/> } id="home"/>
-          <Route path="/file-tracker-frontend/files" element={ <Files/> }/>
-          <Route path="/file-tracker-frontend/track/:fileId" element={ <FileTrack/> }/>
-          <Route path="/file-tracker-frontend/about" element={ <About/> }/>
-          <Route path="/file-tracker-frontend/profile" element={ <Profile /> } />
+          <Route path="/" element={ <Home/> } />
+          <Route path="/files" element={ <Files/> }/>
+          <Route path="/track/:fileId" element={ <FileTrack/> }/>
+          <Route path="/about" element={ <About/> }/>
+          <Route path="/profile" element={ <Profile /> } />
           <Route path='*' element={<NotFoundPage/>} />
         </Routes>
         <Footer />
