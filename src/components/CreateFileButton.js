@@ -4,9 +4,10 @@ import Snackbar from "./Snackbar";
 import { useDispatch, useSelector } from "react-redux";
 import Button from '@mui/material/Button';
 import { setFiles } from "../store/files";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateFileButton({id=""}) {
-
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const files = useSelector( state => state.files.allFiles);
     const [ creatingFile, setCreatingFile ] = useState(false);
@@ -44,6 +45,7 @@ export default function CreateFileButton({id=""}) {
         if( response.status === "success"){
           dispatch( setFiles([...files, response.data.file]));
           setNewFile({});
+          navigate(`/track/${response.data.file.fileId}`);
         }
         setCreatingFile(false);
       }
