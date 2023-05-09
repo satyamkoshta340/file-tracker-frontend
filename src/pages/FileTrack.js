@@ -16,7 +16,7 @@ function FileTrack() {
     // const navigate = useNavigate();
     // const user = useSelector ( state => state.user.value );
 
-    console.log(fileId)
+    // console.log(fileId)
     const getFileHistory = async ()=>{
         setIsLoading(true);
         try{
@@ -46,12 +46,12 @@ function FileTrack() {
         setIsLoading(false);
     }
     const printQR = () => {
-        const printContents = `<img src="data:image/jpeg;base64,${qr}" alt="QR" style="width:100%"/>`
+        const printContents = `<div style="display:flex; flex-direction:column; align-items: center"><h1>${file.fileName}</h1><img src="data:image/jpeg;base64,${qr}" alt="QR" style="width:80%"/></div>`
         const w=window.open();
         w.document.write(printContents);
+        setTimeout( () =>{ }, 1000);
         w.print();
         w.close();
-        console.log(printContents)
     }
     useEffect( ()=>{
         getFileHistory();
