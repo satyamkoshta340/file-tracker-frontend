@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Camera } from 'react-camera-pro';
 import background from '../media/background1.png';
 import AlertDialog from '../components/AlertDialog';
@@ -7,14 +7,13 @@ import { Button } from '@mui/material';
 import Snackbar from "../components/Snackbar";
 import { useNavigate } from "react-router-dom";
 import CreateFileButton from '../components/CreateFileButton';
-import { setUser } from '../store/user';
 import DropdownList from '../components/DropdownList';
-import TextField from '@mui/material/TextField';
+import Skeleton from '@mui/material/Skeleton';
+import Box from '@mui/material/Box';
 
 export default function Home() {
   const user = useSelector ( state => state.user.value );
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const [inOut, setInOut] = useState('in');
   const [open, setOpen] = useState(false);
@@ -27,6 +26,7 @@ export default function Home() {
   const [recentFiles, setRecenetFiles] = useState([]);
   const [recipient, setRecipient] = useState(null);
   const [allUsers, setAllUsers] = useState([]);
+  const [isLoadingRecentFiles, setIsLoadingRecentFiles] =useState(false);
   
 
   const [tick, setTick] = useState();
@@ -36,6 +36,7 @@ export default function Home() {
   useEffect(
     ()=>{
       const func = async () =>{
+        setIsLoadingRecentFiles(true);
         const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/user/recent-files`, {
           method: 'GET',
           mode: 'cors',
@@ -49,6 +50,7 @@ export default function Home() {
         if( response.status === "success"){
           setRecenetFiles(response.data?.recentFiles)
         }
+        setIsLoadingRecentFiles(false);
       }
       
       const getAllUsers = async () =>{
@@ -199,7 +201,7 @@ export default function Home() {
           content={
             <div style={{width:"100%", color:"black", minWidth: '16rem' }}>
               { `${ inOut === 'in' ? 'Taking In ' : 'Sending Out '} File "${result.fileName}"` }
-              { inOut == 'out' &&
+              { inOut === 'out' &&
               <div style={{width: '100%', boxSizing: 'border-box'}}>
                 <DropdownList label={"Recipient"} value={recipient} setValue={setRecipient} allValues={allUsers} />
                 {/* <TextField id="filled-basic" label="Description" variant="outlined" onChange={(e) => setInfo(e.target.value)} size="small" style={{width: '100%'}}/> */}
@@ -285,6 +287,18 @@ export default function Home() {
               </div>
               <div style={{padding:'2rem'}}>
                 <span className='recent'>Recent Files</span>
+                {
+                  isLoadingRecentFiles ?
+                  <div>
+                    <Box >
+                        <Skeleton  animation='wave' width={'100%'} height={400}/>
+                    </Box>
+                  </div> :
+                  recentFiles.length === 0 ? <div style={{ marginTop: '2rem' }}>
+                    No recent file to show.
+                  </div>
+                  :
+                
                 <div className='flex-box recent-files'>
                 {
                   recentFiles.map(file=>{
@@ -301,7 +315,7 @@ export default function Home() {
                   })
                 }
                 </div>
-                
+                }
               </div>
             </div>
           }

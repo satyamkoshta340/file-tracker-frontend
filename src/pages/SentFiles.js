@@ -8,6 +8,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TablePagination } from '@mui/material';
+import Skeleton from '@mui/material/Skeleton';
+import Box from '@mui/material/Box';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -37,11 +39,13 @@ export default function CustomizedTables() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [visibleRows, setVisibleRows] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(
         () => {
             const func = async () => {
-                fetch(`${process.env.REACT_APP_SERVER_URL}/api/user/sentFiles`, {
+                setIsLoading(true);
+                await fetch(`${process.env.REACT_APP_SERVER_URL}/api/user/sentFiles`, {
                     method: 'GET',
                     mode: 'cors',
                     credentials: 'include',
@@ -57,7 +61,8 @@ export default function CustomizedTables() {
                         console.log(response.data.sentFiles)
                     }
                 }
-                )
+                );
+                setIsLoading(false);
             }
             func();
         }, []
@@ -75,6 +80,17 @@ export default function CustomizedTables() {
     return (
         <div className='page-box' style={{display:'flex', flexDirection:'column', alignItems: 'center'}}>
             <h2>Sent Files</h2>
+            {
+                isLoading ? 
+                <div>
+                    <Box >
+                        <Skeleton  width={'90vw'} height={400}/>
+                    </Box>
+                </div> :
+                visibleRows.length === 0 && <div style={{ marginTop: '2rem' }}>
+                    No file to show.
+                </div>
+            }
             {
                 visibleRows.length > 0 &&
                 <div style={{ "width": "90vw", marginTop: '2rem' }}>
