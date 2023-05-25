@@ -32,7 +32,7 @@ function FileTrack() {
             const response = await resp.json();
             console.log(response);
             if(response.data.history){
-                setHistory(response.data.history);
+                setHistory(response.data.history.reverse());
                 setFile(response.data.file);
                 setQr(response.data.qr);
             }
@@ -46,13 +46,17 @@ function FileTrack() {
         setIsLoading(false);
     }
     const printQR = () => {
-        const printContents = `<div style="display:flex; flex-direction:column; align-items: center"><h1>${file.fileName}</h1><img src="data:image/jpeg;base64,${qr}" alt="QR" style="width:80%"/></div>`
-        const w=window.open();
-        w.document.write(printContents);
-        setTimeout( () =>{ }, 1000);
-        w.print();
-        w.close();
-    }
+        const printContents = `<div style="display:flex; flex-direction:column; align-items: center"><h1>${file.fileName}</h1><img src="data:image/jpeg;base64,${qr}" alt="QR" style="width:80%"/></div>`;
+      
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(printContents);
+        printWindow.document.close();
+      
+        printWindow.onload = () => {
+          printWindow.print();
+          printWindow.close();
+        };
+      };
     useEffect( ()=>{
         getFileHistory();
     }, [])
@@ -97,11 +101,11 @@ function FileTrack() {
                     {
                         history.map((h, i)=>{
                             return(
-                                <div className={`track-spot`} key={h._id}>
-                                    {h.userId.firstName + " " + h.userId.lastName} <br/>
+                                <div className={ i+1 === history.length ? "track-spot" : `track-spot lb`} key={h._id}>
+                                    <div className={ i  === 0 ? "circle curr-spot" : i+1 === history.length ? "circle start-spot": "circle old-spot"}></div>
+                                    {h.userId?.firstName + " " + h.userId?.lastName + ` (${h.userId.email})`} <br/>
                                     {new Date(h.reachedAt).toString() } <br/>
                                     { h.info }
-                                    <div className={ i + 1 === history.length ? "circle curr-spot" : "circle old-spot"}></div>
                                 </div>
                             )
                         })

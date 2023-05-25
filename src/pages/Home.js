@@ -8,7 +8,8 @@ import Snackbar from "../components/Snackbar";
 import { useNavigate } from "react-router-dom";
 import CreateFileButton from '../components/CreateFileButton';
 import { setUser } from '../store/user';
-
+import DropdownList from '../components/DropdownList';
+import TextField from '@mui/material/TextField';
 
 export default function Home() {
   const user = useSelector ( state => state.user.value );
@@ -24,6 +25,8 @@ export default function Home() {
   const camera = useRef(null);
   const [info, setInfo] = useState("");
   const [recentFiles, setRecenetFiles] = useState([]);
+  const [recipient, setRecipient] = useState(null);
+  const [allUsers, setAllUsers] = useState([]);
   
 
   const [tick, setTick] = useState();
@@ -47,7 +50,25 @@ export default function Home() {
           setRecenetFiles(response.data?.recentFiles)
         }
       }
+      
+      const getAllUsers = async () =>{
+        const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/user/getAllUsers`, {
+          method: 'GET',
+          mode: 'cors',
+          credentials: 'include',
+          headers:{
+              'content-type': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem("token")}`
+          }
+        });
+        const response = await resp.json();
+        if( response.status === "success"){
+          const temp = response.data.map( item => { return { label: item.email, value: {_id:item._id, firstName: item.firstName, lastName: item.lastName} }})
+          setAllUsers(temp)
+        }
+      }
       func();
+      getAllUsers();
     }, []
   );
 
@@ -74,15 +95,24 @@ export default function Home() {
     setScanning(false);
   }
   const takeInFile = (fileId) =>{
-    setInfo(`File recieved by ${user.firstName} ${user.lastName}.`)
-    updateFileHistory(fileId, "recieve");
+    setRecipient(user);
+    setInfo({ message:`File recieved by ${user.firstName} ${user.lastName}.`, type: "recieve", fileId: fileId});
   }
   const sendOutFile = (fileId) =>{
-    updateFileHistory(fileId, "send");
+    if( recipient === null ){
+      setSnack({
+        active: true,
+        message: "Please select the Recipient first.",
+        severity: "error"
+      });
+      return;
+    }
+    setInfo({ message:`File sent to ${recipient.firstName + " " + recipient.lastName} from ${user.firstName + " " + user.lastName}.`, type: "send", fileId: fileId});
   }
-  const updateFileHistory = async (fileId, type)=>{
+
+  const updateFileHistory = async (info)=>{
     console.log(info)
-    const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/file/history/${fileId}`, {
+    const resp = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/file/history/${info.fileId}`, {
       method: 'POST',
       mode: 'cors',
       credentials: 'include',
@@ -91,8 +121,9 @@ export default function Home() {
           'Authorization': `Bearer ${localStorage.getItem("token")}`
       },
       body: JSON.stringify({
-        info: info,
-        type
+        info: info.message,
+        type: info.type,
+        recipientId: recipient._id
       })
     });
     const response = await resp.json();
@@ -113,6 +144,11 @@ export default function Home() {
       });
     }
   }
+
+  useEffect( () => {
+    updateFileHistory(info);
+  }, [info]);
+
   const checkResult = async (res) => {
     const pos = res.search("/track/");
     const fileId = res.substring(pos+7);
@@ -161,11 +197,12 @@ export default function Home() {
         <AlertDialog 
           name={`${ inOut === 'in' ? 'Taking In ' : 'Sending Out '}`} 
           content={
-            <div style={{width:"100%", color:"black"}}>
+            <div style={{width:"100%", color:"black", minWidth: '16rem' }}>
               { `${ inOut === 'in' ? 'Taking In ' : 'Sending Out '} File "${result.fileName}"` }
               { inOut == 'out' &&
-              <div>
-                Set Reciever description <input type={"text"} onChange= {(e) => setInfo(e.target.value)}></input>
+              <div style={{width: '100%', boxSizing: 'border-box'}}>
+                <DropdownList label={"Recipient"} value={recipient} setValue={setRecipient} allValues={allUsers} />
+                {/* <TextField id="filled-basic" label="Description" variant="outlined" onChange={(e) => setInfo(e.target.value)} size="small" style={{width: '100%'}}/> */}
               </div>
               }  
               <div className='flex-box' style={{width:"100%", justifyContent: "space-between", paddingTop: '1rem'}}>

@@ -10,7 +10,7 @@ import { setUser } from "../store/user";
 import axios from 'axios';
 
 function Navbar() {
-  const [sideNav, setSideNav] = useState(true);
+  const [sideNav, setSideNav] = useState(false);
   const [authenticating, setAuthenticating] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -243,7 +243,7 @@ function Navbar() {
                 <img src={ user.picture ? user.picture : avatar } alt="👨" className="user-pic" onClick={(e) => {
                   setSideNav(!sideNav);
                 }}/>
-                <Sidenav flag={sideNav}/>
+                <Sidenav sideNav={sideNav} setSideNav={setSideNav}/>
               </div>
             }
         </div>

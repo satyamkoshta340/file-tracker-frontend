@@ -17,10 +17,12 @@
     
 }
 .track-spot{
-    padding-top: 1rem;
-    border-left: 4px solid black;
+    padding-bottom: 1rem;
     padding-left: 2rem;
     position: relative;
+}
+.lb{
+    border-left: 4px solid black;
 }
 
 .circle{
@@ -37,6 +39,9 @@
 }
 .old-spot{
     background-color: aliceblue
+}
+.start-spot{
+    background-color: aqua;
 }
 .qr-box{
     display: flex;

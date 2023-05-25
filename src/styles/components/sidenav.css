@@ -10,14 +10,15 @@
     transition: all 0.01s;
 }
 .nav-features {
-    margin-top: 0.5rem;
+    /* margin-top: 0.5rem; */
     max-width: 25rem;
-    position: absolute;
-    top: 4.1rem;
-    right: 0;
+    /* position: absolute; */
+    /* top: 4.1rem; */
+    /* right: 0; */
+    display: flex;
     flex-direction: column;
     background-color: #f6f6f6;
-    width: 50%;
+    /* width: 50%; */
     transition: all 1s;
     z-index: 1;
 }
@@ -33,10 +34,6 @@
 }
 
 @media  screen and (max-width: 768px) {
-    .nav-features{
-        width: 80%;
-    }
-
     .my-files{
         display: block;
     }

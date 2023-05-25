@@ -12,6 +12,8 @@ import { useDispatch } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { setUser } from './store/user';
 import { setFiles } from './store/files';
+import SentFiles from './pages/SentFiles';
+import RecievedFiles from './pages/RecievedFiles';
 
 function App() {
 
@@ -85,6 +87,8 @@ function App() {
           <Route path="/track/:fileId" element={ <FileTrack/> }/>
           <Route path="/about" element={ <About/> }/>
           <Route path="/profile" element={ <Profile /> } />
+          <Route path="/sent-files" element={ <SentFiles />} />
+          <Route path="/recieved-files" element={ <RecievedFiles />} />
           <Route path='*' element={<NotFoundPage/>} />
         </Routes>
         <Footer />

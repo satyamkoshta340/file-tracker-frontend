@@ -47,6 +47,20 @@
     outline: none;
 }
 
+.delete-button{
+    position: absolute;
+    right: 0.5rem;
+    bottom:0.5rem;
+    border: "2px solid black";
+    border-radius: 50;
+}
+
+.delete-button:hover{
+    color: red;
+    z-index: 10;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 768px) {
     .files-box{
         /* flex-direction: column; */
